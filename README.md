@@ -4,7 +4,8 @@
 [![Deploy](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/deploy.yml)
 
 A minimal React + TypeScript + Vite starter with linting, formatting, tests, and GitHub Actions
-CI/CD to Vercel. Replace `src/App.tsx` and `src/index.css` with your own design.
+CI/CD to GitHub Pages. No deployment secrets are required. Replace `src/App.tsx` and
+`src/index.css` with your own design.
 
 ## Stack
 
@@ -12,7 +13,7 @@ CI/CD to Vercel. Replace `src/App.tsx` and `src/index.css` with your own design.
 - Vite 8
 - Vitest + Testing Library
 - ESLint 10 + Prettier
-- GitHub Actions + Vercel
+- GitHub Actions + GitHub Pages
 
 ## Requirements
 
@@ -37,7 +38,11 @@ The development server runs at [http://localhost:5173](http://localhost:5173).
 | `VITE_APP_NAME` | No       | `React App` | Name shown in the starter |
 
 Vite only exposes variables prefixed with `VITE_` to the browser. These values are bundled into
-the client, so never put secrets in them. Deployment credentials belong in GitHub Secrets.
+the client, so never put secrets in them.
+
+For the deployed site, add `VITE_APP_NAME` as an Actions repository variable under
+_Settings → Secrets and variables → Actions → Variables_. The deploy workflow passes it to the
+production build. Repository variables are public configuration, not secrets.
 
 ## Scripts
 
@@ -69,7 +74,6 @@ the client, so never put secrets in them. Deployment credentials belong in GitHu
 ├── .env.example
 ├── eslint.config.js
 ├── index.html
-├── vercel.json
 └── vite.config.ts
 ```
 
@@ -89,7 +93,7 @@ the client, so never put secrets in them. Deployment credentials belong in GitHu
 4. Open a pull request against `main`. CI must pass before merging.
 5. Use [Conventional Commits](https://www.conventionalcommits.org/) and squash merge.
 
-Keep `package-lock.json` committed. Do not commit `.env.local`, `.vercel`, or any credentials.
+Keep `package-lock.json` committed. Do not commit `.env.local` or any credentials.
 
 For stricter protection, enable branch protection on `main` and require the
 `CI / Lint, format, test, build` check.
@@ -107,62 +111,40 @@ tests, and the production build. It uses read-only permissions and never accesse
 `.github/workflows/deploy.yml` runs on every push to `main`:
 
 1. Calls the CI workflow as a required job, so deployment only starts after CI passes.
-2. Uses the `production` GitHub Environment.
-3. Pulls Vercel settings, builds the project, and deploys with the Vercel CLI.
-4. Writes the deployment URL to the job summary and environment URL.
+2. Builds the production bundle and uploads it as a GitHub Pages artifact.
+3. Deploys through the `github-pages` environment using the built-in `GITHUB_TOKEN`.
+4. Publishes the deployment URL to the workflow run and environment.
 
-Production deployments are serialized, and existing deployments are not cancelled.
+No repository secrets are required. The deploy job receives only the scoped permissions it
+needs: `pages: write` and `id-token: write`.
 
-## One-time deployment setup
+## One-time GitHub Pages setup
 
-1. **Create the Vercel project.** Import this repository in Vercel and select the Vite preset.
-   `vercel.json` sets the build command, output directory, and install command.
-2. **Create a Vercel token** in _Account Settings → Tokens_, scoped to the project.
-3. **Link the project locally** to get its identifiers:
+1. Open **Settings → Pages** in the repository.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Merge a pull request into `main`, or re-run the Deploy workflow.
+4. The site is published at `https://samuelalehegn.github.io/nattyfy-portfolio/`.
 
-   ```bash
-   npx vercel login
-   npx vercel link
-   cat .vercel/project.json
-   ```
+Vite uses a relative base (`base: './'`), so assets work on both the project URL and a custom
+domain. If you add client-side routing later, configure the base path and a Pages `404.html`
+fallback for your router.
 
-4. **Add GitHub secrets** in _Settings → Secrets and variables → Actions_:
-
-   | Secret              | Value                   |
-   | ------------------- | ----------------------- |
-   | `VERCEL_TOKEN`      | The token from step 2   |
-   | `VERCEL_ORG_ID`     | `orgId` from step 3     |
-   | `VERCEL_PROJECT_ID` | `projectId` from step 3 |
-
-   For production-only scoping, create a `production` environment and add the secrets there.
-   The deploy job already declares that environment.
-
-5. **Add production environment variables** in Vercel under _Settings → Environment Variables_.
-   Add `VITE_APP_NAME` for the Production environment if you use it.
-6. **Avoid duplicate production deployments.** `vercel.json` disables Vercel's automatic Git
-   deployments for `main`, so GitHub Actions owns production.
-7. **Optional hardening.** Add protection rules to the `production` environment, such as required
-   reviewers.
-8. **Ship it.** Merge a pull request into `main` and follow the Deploy workflow.
-
-If you rename the default branch, update the `branches` filters in both workflows and the
-`git.deploymentEnabled` entry in `vercel.json`.
+To use a custom domain, configure it under **Settings → Pages → Custom domain**. No workflow
+change is needed.
 
 ## Security and maintenance
 
 - Workflows use least-privilege permissions and disable persisted Git credentials on checkout.
-- Deployment secrets are exposed only to the Vercel steps in the deploy job, never to pull
-  request CI.
-- `vercel.json` adds standard security headers and immutable caching for hashed assets.
+- Deployment uses short-lived GitHub-issued credentials; no long-lived tokens are stored.
+- Pull request CI has read-only access and never receives deployment permissions.
 - Dependabot proposes weekly npm updates and monthly GitHub Actions updates.
-- Keep the Vercel CLI major version in `deploy.yml` current with Vercel's supported release.
 
 ## Troubleshooting
 
-| Problem                               | Fix                                                                                   |
-| ------------------------------------- | ------------------------------------------------------------------------------------- |
-| `npm ci` fails on an unsupported Node | Run `nvm use`; CI should use Node 22.22+                                              |
-| Deploy fails with a missing secret    | Check the secret names and whether they are repository-level or environment-level     |
-| Vercel reports a missing project      | Re-run `vercel link`, confirm the token belongs to the same team, and refresh the IDs |
-| `vercel pull` asks for authentication | Confirm `VERCEL_TOKEN` is available to the step and has not expired                   |
-| Formatting fails in CI                | Run `npm run format` locally, then commit the changes                                 |
+| Problem                                   | Fix                                                                               |
+| ----------------------------------------- | --------------------------------------------------------------------------------- |
+| `npm ci` fails on an unsupported Node     | Run `nvm use`; CI should use Node 22.22+                                          |
+| Deploy fails with “Get Pages site failed” | Set **Settings → Pages → Source** to **GitHub Actions**, then re-run the workflow |
+| Assets return 404 after deploying         | Keep `base: './'` in `vite.config.ts` or set it to your Pages base path           |
+| Deploy does not run                       | Deployment runs only on pushes to `main`; PRs run CI only                         |
+| Formatting fails in CI                    | Run `npm run format` locally, then commit the changes                             |
