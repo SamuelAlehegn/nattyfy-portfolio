@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: production-deploy
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -16,14 +16,11 @@ jobs:
     name: CI
     uses: ./.github/workflows/ci.yml
 
-  deploy:
-    name: Deploy to production
+  build:
+    name: Build site
     needs: ci
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment:
-      name: production
-      url: ${{ steps.deploy.outputs.url }}
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -37,46 +34,36 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - name: Verify deployment secrets
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
-            if [ -z "${!name}" ]; then
-              echo "::error::Missing required secret: $name"
-              exit 1
-            fi
-          done
-
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@65
-
-      - name: Pull Vercel environment information
+      - name: Build site
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=production
+          VITE_APP_NAME: ${{ vars.VITE_APP_NAME }}
+        run: npm run build
 
-      - name: Build project artifacts
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --prod
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
-      - name: Deploy project artifacts
-        id: deploy
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          url="$(vercel deploy --prebuilt --prod --yes)"
-          echo "url=${url}" >> "$GITHUB_OUTPUT"
-          echo "Deployed to ${url}" >> "$GITHUB_STEP_SUMMARY"
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
