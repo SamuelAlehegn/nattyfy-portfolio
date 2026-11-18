@@ -40,6 +40,9 @@ jobs:
       - name: Build site
         env:
           VITE_APP_NAME: ${{ vars.VITE_APP_NAME }}
+          # GitHub Pages project sites live at /<repository>/. Set the VITE_BASE_PATH
+          # repository variable to `/` after configuring a custom domain.
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || format('/{0}/', github.event.repository.name) }}
         run: npm run build
 
       - name: Upload Pages artifact

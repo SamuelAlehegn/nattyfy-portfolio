@@ -33,16 +33,17 @@ The development server runs at [http://localhost:5173](http://localhost:5173).
 
 ## Environment variables
 
-| Variable        | Required | Default     | Purpose                   |
-| --------------- | -------- | ----------- | ------------------------- |
-| `VITE_APP_NAME` | No       | `React App` | Name shown in the starter |
+| Variable         | Required | Default     | Purpose                                        |
+| ---------------- | -------- | ----------- | ---------------------------------------------- |
+| `VITE_APP_NAME`  | No       | `React App` | Name shown in the starter                      |
+| `VITE_BASE_PATH` | No       | `/`         | Public base path used by Vite and React Router |
 
-Vite only exposes variables prefixed with `VITE_` to the browser. These values are bundled into
-the client, so never put secrets in them.
+Vite variables are public build-time configuration, not secrets. Never put secrets in them.
 
 For the deployed site, add `VITE_APP_NAME` as an Actions repository variable under
 _Settings → Secrets and variables → Actions → Variables_. The deploy workflow passes it to the
-production build. Repository variables are public configuration, not secrets.
+production build. It sets `VITE_BASE_PATH` automatically from the repository name unless you
+override it. Repository variables are public configuration, not secrets.
 
 ## Scripts
 
@@ -125,12 +126,11 @@ needs: `pages: write` and `id-token: write`.
 3. Merge a pull request into `main`, or re-run the Deploy workflow.
 4. The site is published at `https://samuelalehegn.github.io/nattyfy-portfolio/`.
 
-Vite uses a relative base (`base: './'`), so assets work on both the project URL and a custom
-domain. If you add client-side routing later, configure the base path and a Pages `404.html`
-fallback for your router.
-
-To use a custom domain, configure it under **Settings → Pages → Custom domain**. No workflow
-change is needed.
+Vite uses the GitHub Pages project base path (`/nattyfy-portfolio/`) during deployment, and the
+build copies `index.html` to `404.html` so client-side routes work on direct visits and refreshes.
+The deploy workflow derives the base path from the repository name. To use a custom domain,
+configure it under **Settings → Pages → Custom domain**, then add a `VITE_BASE_PATH` Actions
+repository variable set to `/` and re-run the Deploy workflow.
 
 ## Security and maintenance
 
@@ -145,6 +145,6 @@ change is needed.
 | ----------------------------------------- | --------------------------------------------------------------------------------- |
 | `npm ci` fails on an unsupported Node     | Run `nvm use`; CI should use Node 22.22+                                          |
 | Deploy fails with “Get Pages site failed” | Set **Settings → Pages → Source** to **GitHub Actions**, then re-run the workflow |
-| Assets return 404 after deploying         | Keep `base: './'` in `vite.config.ts` or set it to your Pages base path           |
+| Assets return 404 after deploying         | Set `VITE_BASE_PATH` to your Pages base path, or `/` for a custom domain          |
 | Deploy does not run                       | Deployment runs only on pushes to `main`; PRs run CI only                         |
 | Formatting fails in CI                    | Run `npm run format` locally, then commit the changes                             |
