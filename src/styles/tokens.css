@@ -1,0 +1,156 @@
+:root {
+  /* Brand primitives */
+  --brand-cyan-100: #c8f0f1;
+  --brand-cyan-300: #7fe0e3;
+  --brand-cyan-500: #24c2c7;
+  --brand-cyan-600: #1ea8ad;
+  --brand-cyan-800: #0e7c80;
+  --brand-blue-500: #418cd9;
+  --brand-blue-700: #2e6bae;
+  --brand-blue-900: #1b3f6b;
+  --brand-navy-950: #06141e;
+  --brand-navy-900: #07151f;
+  --brand-navy-800: #0b1a26;
+  --brand-navy-700: #0e1f2c;
+  --brand-navy-600: #132635;
+  --brand-gold-500: #e8ca55;
+  --brand-gold-600: #d4b33c;
+  --brand-gold-100: #f7ecc4;
+
+  /* Neutrals */
+  --neutral-0: #ffffff;
+  --neutral-50: #f7fdfd;
+  --neutral-100: #effbfb;
+  --neutral-200: #e6fdfe;
+  --neutral-300: #c8f0f1;
+  --neutral-500: #8e99a6;
+  --neutral-600: #5f707b;
+  --neutral-700: #3e4c57;
+
+  /* Functional */
+  --danger-light: #b42318;
+  --danger-dark: #ff6b6b;
+  --success-light: #067647;
+  --success-dark: #2fbf71;
+
+  /* Space: aliases for hand-written CSS. Tailwind utilities use the 4 px --spacing base. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-22: 5.5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Borders */
+  --border-width: 1px;
+  --border-width-strong: 2px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 350ms;
+  --duration-reveal: 600ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Page backgrounds */
+  --gradient-dark-page:
+    radial-gradient(55% 50% at 92% 0%, #24c2c7 0%, rgb(36 194 199 / 0) 70%),
+    radial-gradient(50% 55% at 105% 48%, #418cd9 0%, rgb(65 140 217 / 0) 65%),
+    linear-gradient(150deg, #12202d 0%, #07151f 55%, #06141e 100%);
+  --gradient-light-page: linear-gradient(
+    180deg,
+    #e6fdfe 0%,
+    #e0f9fc 16%,
+    #caf0f5 25%,
+    #95e1e6 34%,
+    #4ecdd2 43%,
+    #24c2c7 52%,
+    #24c2c7 100%
+  );
+  --gradient-light-hero: linear-gradient(
+    112deg,
+    #f7feff 0%,
+    #eafcff 40%,
+    #d6f8fc 72%,
+    #bff5fa 100%
+  );
+
+  /* Semantic — light theme defaults */
+  color-scheme: light;
+  --bg: var(--neutral-0);
+  --bg-elevated: var(--neutral-100);
+  --header-bg: var(--brand-cyan-500);
+  --header-fg: var(--brand-navy-900);
+  --surface: var(--neutral-0);
+  --surface-alt: var(--neutral-200);
+  --heading: var(--brand-navy-900);
+  --text: var(--brand-navy-900);
+  --text-muted: var(--neutral-600);
+  --text-subtle: var(--neutral-500);
+  --logo: var(--header-fg);
+  --brand: var(--brand-cyan-500);
+  --on-brand: var(--brand-navy-900);
+  --highlight: var(--brand-gold-500);
+  --on-highlight: var(--brand-navy-900);
+  --accent: var(--brand-cyan-800);
+  --accent-hover: #0a6266;
+  --border: rgb(7 21 31 / 0.12);
+  --border-strong: rgb(7 21 31 / 0.28);
+  --overlay: rgb(7 21 31 / 0.55);
+  --focus-ring: var(--brand-cyan-800);
+  --skeleton: var(--neutral-200);
+  --danger: var(--danger-light);
+  --success: var(--success-light);
+
+  --shadow-card: 0 18px 40px rgb(7 21 31 / 0.16), 0 2px 6px rgb(7 21 31 / 0.08);
+  --shadow-card-hover: 0 26px 60px rgb(7 21 31 / 0.24);
+  --shadow-panel: 0 -12px 40px rgb(7 21 31 / 0.08);
+  --shadow-button: 4px 4px 0 0 var(--brand-navy-900);
+  --shadow-glow: 0 0 18px rgb(36 194 199 / 0.65);
+  --shadow-focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: var(--brand-navy-900);
+  --bg-elevated: var(--brand-navy-800);
+  --header-bg: var(--brand-navy-900);
+  --header-fg: var(--brand-cyan-500);
+  --surface: var(--brand-navy-700);
+  --surface-alt: var(--brand-navy-600);
+  --heading: var(--neutral-0);
+  --text: var(--neutral-0);
+  --text-muted: #9fb0bd;
+  --text-subtle: var(--neutral-500);
+  --logo: var(--header-fg);
+  --brand: var(--brand-cyan-500);
+  --on-brand: var(--brand-navy-900);
+  --highlight: var(--brand-gold-500);
+  --on-highlight: var(--brand-navy-900);
+  --accent: var(--brand-cyan-500);
+  --accent-hover: var(--brand-gold-500);
+  --border: rgb(255 255 255 / 0.12);
+  --border-strong: rgb(255 255 255 / 0.28);
+  --overlay: rgb(7 21 31 / 0.6);
+  --focus-ring: var(--brand-cyan-500);
+  --skeleton: var(--brand-navy-600);
+  --danger: var(--danger-dark);
+  --success: var(--success-dark);
+
+  --shadow-card: 0 18px 45px rgb(0 0 0 / 0.3), 0 2px 8px rgb(0 0 0 / 0.18);
+  --shadow-card-hover: 0 26px 60px rgb(0 0 0 / 0.38);
+  --shadow-panel: 0 0 0 rgb(0 0 0 / 0);
+  --shadow-button: 4px 4px 0 0 var(--brand-navy-900);
+  --shadow-glow: 0 0 18px rgb(36 194 199 / 0.65);
+  --shadow-focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);
+}
