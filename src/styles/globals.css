@@ -86,6 +86,8 @@
   --color-on-highlight: var(--on-highlight);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
   --color-logo: var(--logo);
   --color-border: var(--border);
   --color-focus: var(--focus-ring);
@@ -212,5 +214,170 @@
     .container-site {
       width: min(100% - 5rem, 96rem);
     }
+  }
+
+  /*
+   * Full-page backdrop: the theme gradient, an icy hero wash in light mode and
+   * the technical grid reproduced with CSS instead of shipping the 320 KB
+   * bg_pattern.svg. The grid is its own layer so it also shows through the
+   * translucent hero wash.
+   */
+  .page-surface {
+    --grid-minor: rgb(36 194 199 / 0.055);
+    --grid-major: rgb(36 194 199 / 0.08);
+    --grid-crosshair-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='97.5' height='97.5'%3E%3Cpath d='M42.75 48.75h12M48.75 42.75v12' fill='none' stroke='%2324c2c7' stroke-opacity='.18' stroke-width='1'/%3E%3C/svg%3E");
+    --gradient-page: var(--gradient-light-page);
+    --hero-wash: linear-gradient(100deg, #f9feff 0%, #eafcff 35%, #d5f8fc 70%, #bff5fa 100%);
+
+    position: relative;
+    isolation: isolate;
+    background-color: var(--bg);
+    background-image: var(--gradient-page);
+  }
+
+  /* Icy wash over the light hero that dissolves into the cyan page band. */
+  .page-surface::before {
+    content: '';
+    position: absolute;
+    inset: 4rem 0 auto;
+    z-index: -2;
+    height: 100rem;
+    pointer-events: none;
+    background-image: var(--hero-wash);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+  }
+
+  @media (width >= 48rem) {
+    .page-surface::before {
+      inset-block-start: 5.5rem;
+    }
+  }
+
+  /* Tiled technical grid drawn above the background washes, below content. */
+  .page-surface::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      var(--grid-crosshair-image),
+      repeating-linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px 97.5px),
+      repeating-linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px 97.5px),
+      repeating-linear-gradient(to right, var(--grid-minor) 0 1px, transparent 1px 19.5px),
+      repeating-linear-gradient(to bottom, var(--grid-minor) 0 1px, transparent 1px 19.5px);
+    background-position:
+      -48.75px -48.75px,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-repeat: repeat;
+    background-size:
+      97.5px 97.5px,
+      auto,
+      auto,
+      auto,
+      auto;
+  }
+
+  .dark .page-surface {
+    --grid-minor: rgb(36 194 199 / 0.035);
+    --grid-major: rgb(36 194 199 / 0.055);
+    --grid-crosshair-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='97.5' height='97.5'%3E%3Cpath d='M42.75 48.75h12M48.75 42.75v12' fill='none' stroke='%2324c2c7' stroke-opacity='.12' stroke-width='1'/%3E%3C/svg%3E");
+    --gradient-page: var(--gradient-dark-page);
+  }
+
+  .dark .page-surface::before {
+    content: none;
+  }
+
+  /* White footer panel in light mode; transparent/seamless in dark mode. */
+  .footer-panel {
+    background-color: var(--surface);
+    background-image:
+      var(--grid-crosshair-image),
+      repeating-linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px 97.5px),
+      repeating-linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px 97.5px),
+      repeating-linear-gradient(to right, var(--grid-minor) 0 1px, transparent 1px 19.5px),
+      repeating-linear-gradient(to bottom, var(--grid-minor) 0 1px, transparent 1px 19.5px);
+    background-position:
+      -48.75px -48.75px,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-repeat: repeat;
+    background-size:
+      97.5px 97.5px,
+      auto,
+      auto,
+      auto,
+      auto;
+  }
+
+  .dark .footer-panel {
+    background-color: transparent;
+    background-image: none;
+  }
+
+  /* Soft cyan halo from the style guide; the glyph keeps its current colour. */
+  .social-icon {
+    transition: filter var(--duration-fast) var(--ease-out);
+  }
+
+  .social-icon:hover,
+  .social-icon:focus-visible {
+    filter: drop-shadow(0 0 8px rgb(36 194 199 / 0.9)) drop-shadow(0 0 18px rgb(36 194 199 / 0.55));
+  }
+
+  .skeleton-shimmer {
+    background-color: var(--skeleton);
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.55) 40%,
+      transparent 60%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s var(--ease-out) infinite;
+  }
+
+  .dark .skeleton-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.06) 40%,
+      transparent 60%
+    );
+  }
+
+  /* The home grid fades into the page; the More button is layered above it. */
+  .home-portfolio-grid {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 58%,
+      rgb(0 0 0 / 0.7) 76%,
+      transparent 92%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 58%,
+      rgb(0 0 0 / 0.7) 76%,
+      transparent 92%
+    );
+  }
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
   }
 }
