@@ -14,6 +14,14 @@ export interface Project {
   blurred?: boolean;
 }
 
+export interface LogoItem {
+  id: string;
+  name: string;
+  image: string;
+  /** Brand tile background sampled from the design system (§6.4). */
+  background: string;
+}
+
 export type SocialNetwork = 'linkedin' | 'telegram' | 'instagram';
 
 export interface SocialLink {
