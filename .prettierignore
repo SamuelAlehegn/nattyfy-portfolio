@@ -2,3 +2,5 @@ dist
 coverage
 node_modules
 package-lock.json
+# Raw Lottie exports are vendored exactly as supplied by the designer.
+src/assets/animations
