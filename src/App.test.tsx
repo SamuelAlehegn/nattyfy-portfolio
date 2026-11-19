@@ -14,13 +14,53 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: /natnael fikreyesus/i }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /portfolio highlight/i }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('banner')).toBeInTheDocument();
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Contact Me' })).toHaveAttribute('href', '/contact');
+
+    const contactLinks = screen.getAllByRole('link', { name: 'Contact Me' });
+    expect(contactLinks).toHaveLength(2);
+    contactLinks.forEach((link) => expect(link).toHaveAttribute('href', '/contact'));
+
     expect(screen.getByRole('link', { name: /natnael fikreyesus — home/i })).toHaveAttribute(
       'href',
       '/',
     );
+    expect(screen.getByRole('link', { name: 'View more projects' })).toHaveAttribute(
+      'href',
+      '/works',
+    );
+    expect(screen.getByRole('link', { name: /fikreyesusn@gmail.com/i })).toHaveAttribute(
+      'href',
+      'mailto:fikreyesusn@gmail.com',
+    );
+    expect(screen.getByText(/design is the silent ambassador/i)).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /opens in a new tab/i })).toHaveLength(3);
+  });
+
+  it('opens and closes the mobile navigation menu', () => {
+    render(<App />);
+
+    const toggle = screen.getByRole('button', { name: 'Open menu' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+
+    fireEvent.click(toggle);
+
+    expect(screen.getByRole('button', { name: 'Close menu' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(screen.getByRole('navigation', { name: 'Mobile' })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close menu' }));
+
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument();
   });
 
   it('toggles the theme and persists the preference', () => {

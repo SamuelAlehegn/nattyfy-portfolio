@@ -104,6 +104,8 @@
   --on-highlight: var(--brand-navy-900);
   --accent: var(--brand-cyan-800);
   --accent-hover: #0a6266;
+  --primary: var(--brand-navy-900);
+  --on-primary: var(--brand-cyan-500);
   --border: rgb(7 21 31 / 0.12);
   --border-strong: rgb(7 21 31 / 0.28);
   --overlay: rgb(7 21 31 / 0.55);
@@ -139,6 +141,8 @@
   --on-highlight: var(--brand-navy-900);
   --accent: var(--brand-cyan-500);
   --accent-hover: var(--brand-gold-500);
+  --primary: var(--brand-cyan-500);
+  --on-primary: var(--brand-navy-900);
   --border: rgb(255 255 255 / 0.12);
   --border-strong: rgb(255 255 255 / 0.28);
   --overlay: rgb(7 21 31 / 0.6);
