@@ -98,9 +98,9 @@ describe('WorksPage', () => {
     fireEvent.click(screen.getByRole('link', { name: 'View project: Golden Hour' }));
 
     expect(screen.getByRole('heading', { level: 1, name: 'Golden Hour' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /back to my works/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Next project: Project Name' })).toHaveAttribute(
       'href',
-      '/works',
+      '/works/project-name',
     );
   });
 });

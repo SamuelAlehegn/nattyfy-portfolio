@@ -12,6 +12,10 @@ export interface Project {
   image: ImageAsset;
   /** Blurred teaser card with the "Project Name →" overlay. */
   blurred?: boolean;
+  /** Case-study paragraphs. Optional so a project can ship before its copy is ready. */
+  description?: string[];
+  /** Case-study gallery images. Optional so a project can ship before its imagery is ready. */
+  gallery?: ImageAsset[];
 }
 
 export interface LogoItem {
