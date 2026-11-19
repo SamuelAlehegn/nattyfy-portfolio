@@ -19,6 +19,63 @@ const blurredImage = {
 };
 
 /**
+ * My Works brand grid. The reference repeats the yellow identity mockup and
+ * reserves the second slot for the blurred "Project Name" teaser, so the same
+ * image pair is reused here until the real case-study mockups land.
+ */
+export const worksProjects: Project[] = [
+  {
+    id: 'golden-hour',
+    title: 'Golden Hour',
+    href: '/works/golden-hour',
+    image: sharpImage,
+  },
+  {
+    id: 'project-name',
+    title: 'Project Name',
+    href: '/works/project-name',
+    image: blurredImage,
+    blurred: true,
+  },
+  {
+    id: 'aurelia',
+    title: 'Aurelia',
+    href: '/works/aurelia',
+    image: sharpImage,
+  },
+  {
+    id: 'solstice',
+    title: 'Solstice',
+    href: '/works/solstice',
+    image: sharpImage,
+  },
+  {
+    id: 'amber-and-co',
+    title: 'Amber & Co.',
+    href: '/works/amber-and-co',
+    image: sharpImage,
+  },
+  {
+    id: 'maison',
+    title: 'Maison',
+    href: '/works/maison',
+    image: sharpImage,
+  },
+  {
+    id: 'maleda-coffee',
+    title: 'Maleda Coffee',
+    href: '/works/maleda-coffee',
+    image: sharpImage,
+  },
+  {
+    id: 'hen',
+    title: 'Hen',
+    href: '/works/hen',
+    image: sharpImage,
+  },
+];
+
+/**
  * Homepage portfolio highlight. Replace these entries with real project data
  * when the project details routes land in Phase 4.
  */

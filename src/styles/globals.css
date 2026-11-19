@@ -353,6 +353,15 @@
     );
   }
 
+  /* Category tabs scroll horizontally on narrow screens without a scrollbar. */
+  .tab-scroller {
+    scrollbar-width: none;
+  }
+
+  .tab-scroller::-webkit-scrollbar {
+    display: none;
+  }
+
   /* The home grid fades into the page; the More button is layered above it. */
   .home-portfolio-grid {
     -webkit-mask-image: linear-gradient(

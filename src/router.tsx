@@ -4,6 +4,7 @@ import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { ProjectDetailPage } from '@/pages/ProjectDetailPage';
 import { WorksPage } from '@/pages/WorksPage';
 
 /**
@@ -38,6 +39,7 @@ const routes = [
     children: [
       { index: true, element: <HomePage /> },
       { path: 'works', element: <WorksPage /> },
+      { path: 'works/:slug', element: <ProjectDetailPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: '*', element: <NotFoundPage /> },
