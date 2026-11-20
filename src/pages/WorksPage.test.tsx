@@ -28,6 +28,9 @@ describe('WorksPage', () => {
 
     expect(screen.getByRole('heading', { level: 2, name: 'Brands' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Logos' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Social Media Posts' }),
+    ).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /^View project:/ })).toHaveLength(8);
     expect(screen.getByRole('link', { name: 'View project: Golden Hour' })).toHaveAttribute(
       'href',
@@ -85,11 +88,32 @@ describe('WorksPage', () => {
     expect(screen.queryByRole('heading', { level: 2, name: 'Brands' })).not.toBeInTheDocument();
   });
 
-  it('shows the social media placeholder', () => {
+  it('renders the tilted social media posts collage', () => {
     renderWorks('/works?view=social');
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Social Media' })).toBeInTheDocument();
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Social Media Posts' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument();
+
+    expect(document.querySelectorAll('article')).toHaveLength(9);
+    expect(screen.getAllByRole('article')).toHaveLength(3);
+
+    expect(screen.getByRole('img', { name: /Ovid Real Estate post/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /Miawa Spring Water post/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /HayaSebat post/i })).toBeInTheDocument();
+
+    expect(screen.getAllByText('FOLLOW')).toHaveLength(9);
+    expect(screen.getAllByText('1992 likes')).toHaveLength(9);
+    expect(screen.getAllByText('#NICE #cats #fine #lovely #family')).toHaveLength(9);
+  });
+
+  it('shows a fallback when social post artwork fails to load', () => {
+    renderWorks('/works?view=social');
+
+    fireEvent.error(screen.getByRole('img', { name: /Ovid Real Estate post/i }));
+
+    expect(screen.getByText('Post artwork unavailable')).toBeInTheDocument();
   });
 
   it('navigates from a brand card to its project page', () => {

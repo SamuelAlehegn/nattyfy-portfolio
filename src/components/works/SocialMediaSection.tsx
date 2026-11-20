@@ -1,17 +1,14 @@
-/**
- * Placeholder for the social showcase that arrives in Phase 5. Keeping the tab
- * functional lets visitors discover the category without dead-end navigation.
- */
+import { SocialPostsGrid } from './SocialPostsGrid';
+
+/** Social Media Posts view: page label plus the tilted Instagram collage. */
 export function SocialMediaSection() {
   return (
     <section aria-labelledby="social-heading">
-      <h2 id="social-heading" className="text-label font-semibold text-heading">
-        Social Media
+      <h2 id="social-heading" className="text-h1 font-bold text-heading">
+        Social Media Posts
       </h2>
 
-      <p className="mt-4 max-w-[40rem] text-body text-heading/80">
-        Recent social campaigns and post designs are coming soon.
-      </p>
+      <SocialPostsGrid />
     </section>
   );
 }

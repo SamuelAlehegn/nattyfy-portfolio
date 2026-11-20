@@ -41,6 +41,9 @@ export function WorksShowcase({ activeView, onViewChange }: WorksShowcaseProps) 
                 <div className="mt-20 md:mt-28">
                   <LogosSection />
                 </div>
+                <div className="mt-20 md:mt-28">
+                  <SocialMediaSection />
+                </div>
               </>
             ) : null}
 

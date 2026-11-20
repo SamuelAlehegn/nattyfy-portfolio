@@ -322,6 +322,49 @@
     background-image: none;
   }
 
+  /*
+   * Instagram post cards. The tilt variables are set inline per card: no tilt
+   * on phones, a reduced tilt on tablets, and the full collage lean on
+   * desktop. Hover straightens and lifts the card; reduced motion keeps it still.
+   */
+  .instagram-card {
+    --tilt: 0deg;
+
+    position: relative;
+    z-index: 0;
+    transform: rotate(var(--tilt));
+    box-shadow: var(--shadow-card);
+    transition:
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+
+  @media (width >= 48rem) {
+    .instagram-card {
+      --tilt: var(--tilt-md, 0deg);
+    }
+  }
+
+  @media (width >= 80rem) {
+    .instagram-card {
+      --tilt: var(--tilt-lg, 0deg);
+    }
+  }
+
+  .instagram-card:hover {
+    z-index: 10;
+    transform: rotate(0deg) translateY(-0.5rem) scale(1.04);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .instagram-card,
+    .instagram-card:hover {
+      transform: rotate(var(--tilt));
+      transition: none;
+    }
+  }
+
   /* Soft cyan halo from the style guide; the glyph keeps its current colour. */
   .social-icon {
     transition: filter var(--duration-fast) var(--ease-out);
