@@ -30,7 +30,7 @@ export interface SocialPost {
   id: string;
   /** Human-readable campaign name used for the card's accessible label. */
   title: string;
-  image: string;
+  image: ImageAsset;
   alt: string;
   username: string;
   likes: number;
