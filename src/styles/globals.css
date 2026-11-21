@@ -351,10 +351,13 @@
     }
   }
 
-  .instagram-card:hover {
-    z-index: 10;
-    transform: rotate(0deg) translateY(-0.5rem) scale(1.04);
-    box-shadow: var(--shadow-card-hover);
+  /* Only pointer devices straighten the card; touch taps must not leave a stuck hover state. */
+  @media (hover: hover) and (pointer: fine) {
+    .instagram-card:hover {
+      z-index: 10;
+      transform: rotate(0deg) translateY(-0.5rem) scale(1.04);
+      box-shadow: var(--shadow-card-hover);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

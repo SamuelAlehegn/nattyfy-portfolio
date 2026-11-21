@@ -34,7 +34,7 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -16,
+    tilt: -12,
   },
   {
     id: 'miawa-spring-water',
@@ -45,7 +45,7 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -16,
+    tilt: -12,
   },
   {
     id: 'haya-sebat',
@@ -56,6 +56,6 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -16,
+    tilt: -12,
   },
 ];
