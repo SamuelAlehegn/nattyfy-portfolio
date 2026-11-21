@@ -7,7 +7,7 @@ import type { SocialLink } from '@/types/content';
 export const site = {
   name: 'Natnael Fikreyesus',
   email: 'fikreyesusn@gmail.com',
-  phoneDisplay: '+251 912 07 0233',
+  phoneDisplay: '+251 912 070 233',
   phoneHref: 'tel:+251912070233',
   roles: ['Logo Design and', 'Brand Identity Design'],
 } as const;
@@ -21,11 +21,11 @@ export const socialLinks: SocialLink[] = [
   {
     id: 'telegram',
     label: 'Telegram',
-    href: 'https://t.me/natnaelfikreyesus',
+    href: 'https://t.me/nattyfy',
   },
   {
     id: 'instagram',
     label: 'Instagram',
-    href: 'https://www.instagram.com/natnael_fikreyesus/',
+    href: 'https://www.instagram.com/nattyfy/',
   },
 ];
