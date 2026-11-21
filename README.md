@@ -1,150 +1,50 @@
-# Nattyfy Portfolio
+# Natnael Fikreyesus — Portfolio
 
-[![CI](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/ci.yml)
-[![Deploy](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/SamuelAlehegn/nattyfy-portfolio/actions/workflows/deploy.yml)
+A responsive portfolio for Natnael Fikreyesus, a graphic and brand identity designer. Built with React, TypeScript, Vite, React Router, Tailwind CSS 4, and Motion.
 
-A minimal React + TypeScript + Vite starter with linting, formatting, tests, and GitHub Actions
-CI/CD to GitHub Pages. No deployment secrets are required. Replace `src/App.tsx` and
-`src/index.css` with your own design.
+## Run locally
 
-## Stack
-
-- React 19 + TypeScript
-- Vite 8
-- Vitest + Testing Library
-- ESLint 10 + Prettier
-- GitHub Actions + GitHub Pages
-
-## Requirements
-
-- Node.js `>=22.22.2` — use the version in `.nvmrc` (`nvm use`)
-- npm `>=10`
-
-## Quick start
+Requirements: Node.js `>=22.22.2` and npm `>=10`.
 
 ```bash
 nvm use
 npm ci
-cp .env.example .env.local
 npm run dev
 ```
 
-The development server runs at [http://localhost:5173](http://localhost:5173).
+Vite prints the local development URL. Useful commands:
 
-## Environment variables
+| Command            | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| `npm run build`    | Type-check and create a production build in `dist/` |
+| `npm run preview`  | Serve the production build locally                  |
+| `npm run lint`     | Check source with ESLint                            |
+| `npm run test:run` | Run the Vitest suite once                           |
 
-| Variable         | Required | Default     | Purpose                                        |
-| ---------------- | -------- | ----------- | ---------------------------------------------- |
-| `VITE_APP_NAME`  | No       | `React App` | Name shown in the starter                      |
-| `VITE_BASE_PATH` | No       | `/`         | Public base path used by Vite and React Router |
+## Theme system
 
-Vite variables are public build-time configuration, not secrets. Never put secrets in them.
+The theme is class-based: the `dark` class on `<html>` selects dark semantic colors. `src/theme/theme-script.ts` applies the saved theme before the first paint to avoid a flash. `ThemeProvider` supports `system`, `light`, and `dark`, follows system preference when selected, and stores the choice in local storage. Theme colors and design tokens live in `src/styles/tokens.css`; Tailwind CSS 4 utilities and theme mappings are declared in `src/styles/globals.css` with `@theme` and `@theme inline`.
 
-For the deployed site, add `VITE_APP_NAME` as an Actions repository variable under
-_Settings → Secrets and variables → Actions → Variables_. The deploy workflow passes it to the
-production build. It sets `VITE_BASE_PATH` automatically from the repository name unless you
-override it. Repository variables are public configuration, not secrets.
+The project uses Tailwind CSS 4's CSS-first configuration, so there is no JavaScript Tailwind config to keep in sync. The exported maintainable design system is the CSS variables in `src/styles/tokens.css`, together with the `@theme` mappings in `src/styles/globals.css`.
 
-## Scripts
+## Content and assets
 
-| Command                | Description                              |
-| ---------------------- | ---------------------------------------- |
-| `npm run dev`          | Start the Vite development server        |
-| `npm run build`        | Type-check and build for production      |
-| `npm run preview`      | Preview the production build locally     |
-| `npm run lint`         | Run ESLint                               |
-| `npm run lint:fix`     | Run ESLint and apply safe fixes          |
-| `npm run format`       | Format the repository with Prettier      |
-| `npm run format:check` | Verify formatting without changing files |
-| `npm run test`         | Run Vitest in watch mode                 |
-| `npm run test:run`     | Run the test suite once (used in CI)     |
-| `npm run typecheck`    | Run TypeScript project builds            |
+- **Projects:** add or update entries in `src/data/projects.ts`. Use stable slugs and place project images under `src/assets/images/`; reference imported assets from the project data. Keep descriptions and gallery image alt text meaningful.
+- **Logos:** update the logo data in `src/data/logos.ts` and add SVG files under `src/assets/images/logos/`.
+- **Social posts:** update `src/data/socialPosts.ts`; add optimized post images under `src/assets/images/social/`.
+- **Contact and social profiles:** edit the shared email, phone, and social URLs in `src/data/site.ts`.
+- **Fonts and shared brand art:** place source assets in `src/assets/` and import them from components or styles. Prefer SVG for logos and icons, and optimized WebP/AVIF for photography and mockups. Give raster images useful dimensions, descriptive alt text, and lazy loading when they appear below the fold.
 
-## Project structure
+Keep assets local where possible, avoid duplicating large originals, and preserve licenses alongside font or third-party assets. The mobile header automatically switches to the icon-only logo.
 
-```text
-.
-├── .github/workflows/
-│   ├── ci.yml
-│   └── deploy.yml
-├── src/
-│   ├── App.tsx
-│   ├── App.test.tsx
-│   ├── index.css
-│   └── main.tsx
-├── .env.example
-├── eslint.config.js
-├── index.html
-└── vite.config.ts
-```
+## Routes
 
-## Development workflow
+- `/` — Home
+- `/works` — Selected work and portfolio categories
+- `/works/:slug` — Project case study
+- `/about` — About Natnael
+- `/contact` — Contact form and direct contact details
 
-1. Branch from `main`: `feat/...`, `fix/...`, `chore/...`, or `docs/...`.
-2. Make focused changes and add or update tests.
-3. Run the same checks as CI:
+## Production
 
-   ```bash
-   npm run lint
-   npm run format:check
-   npm run test:run
-   npm run build
-   ```
-
-4. Open a pull request against `main`. CI must pass before merging.
-5. Use [Conventional Commits](https://www.conventionalcommits.org/) and squash merge.
-
-Keep `package-lock.json` committed. Do not commit `.env.local` or any credentials.
-
-For stricter protection, enable branch protection on `main` and require the
-`CI / Lint, format, test, build` check.
-
-## CI/CD
-
-### Continuous integration
-
-`.github/workflows/ci.yml` runs on every pull request targeting `main` and is callable as a
-reusable workflow. It installs dependencies with `npm ci`, then runs linting, formatting checks,
-tests, and the production build. It uses read-only permissions and never accesses secrets.
-
-### Continuous deployment
-
-`.github/workflows/deploy.yml` runs on every push to `main`:
-
-1. Calls the CI workflow as a required job, so deployment only starts after CI passes.
-2. Builds the production bundle and uploads it as a GitHub Pages artifact.
-3. Deploys through the `github-pages` environment using the built-in `GITHUB_TOKEN`.
-4. Publishes the deployment URL to the workflow run and environment.
-
-No repository secrets are required. The deploy job receives only the scoped permissions it
-needs: `pages: write` and `id-token: write`.
-
-## One-time GitHub Pages setup
-
-1. Open **Settings → Pages** in the repository.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Merge a pull request into `main`, or re-run the Deploy workflow.
-4. The site is published at `https://samuelalehegn.github.io/nattyfy-portfolio/`.
-
-Vite uses the GitHub Pages project base path (`/nattyfy-portfolio/`) during deployment, and the
-build copies `index.html` to `404.html` so client-side routes work on direct visits and refreshes.
-The deploy workflow derives the base path from the repository name. To use a custom domain,
-configure it under **Settings → Pages → Custom domain**, then add a `VITE_BASE_PATH` Actions
-repository variable set to `/` and re-run the Deploy workflow.
-
-## Security and maintenance
-
-- Workflows use least-privilege permissions and disable persisted Git credentials on checkout.
-- Deployment uses short-lived GitHub-issued credentials; no long-lived tokens are stored.
-- Pull request CI has read-only access and never receives deployment permissions.
-- Dependabot proposes weekly npm updates and monthly GitHub Actions updates.
-
-## Troubleshooting
-
-| Problem                                   | Fix                                                                               |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
-| `npm ci` fails on an unsupported Node     | Run `nvm use`; CI should use Node 22.22+                                          |
-| Deploy fails with “Get Pages site failed” | Set **Settings → Pages → Source** to **GitHub Actions**, then re-run the workflow |
-| Assets return 404 after deploying         | Set `VITE_BASE_PATH` to your Pages base path, or `/` for a custom domain          |
-| Deploy does not run                       | Deployment runs only on pushes to `main`; PRs run CI only                         |
-| Formatting fails in CI                    | Run `npm run format` locally, then commit the changes                             |
+`npm run build` creates the static site in `dist/`. GitHub Pages deployment uses the repository workflow and Vite base path configuration. The contact form opens the visitor's configured email application with a prefilled message; this static site does not send or store form submissions.
