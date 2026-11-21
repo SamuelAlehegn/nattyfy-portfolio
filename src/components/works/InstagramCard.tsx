@@ -13,6 +13,8 @@ interface InstagramCardProps {
    * layout but are hidden from assistive technology.
    */
   decorative?: boolean;
+  /** First-row artwork loads eagerly so the collage never pops in. */
+  priority?: boolean;
 }
 
 function HeartIcon({ className }: { className?: string }) {
@@ -91,7 +93,13 @@ function MoreIcon({ className }: { className?: string }) {
  * controls are decorative spans (not buttons) so they never become dead-end
  * tab stops, and repeated collage copies are hidden from screen readers.
  */
-export function InstagramCard({ post, tilt, tabletTilt, decorative = false }: InstagramCardProps) {
+export function InstagramCard({
+  post,
+  tilt,
+  tabletTilt,
+  decorative = false,
+  priority = false,
+}: InstagramCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -157,9 +165,9 @@ export function InstagramCard({ post, tilt, tabletTilt, decorative = false }: In
             width={post.image.width}
             height={post.image.height}
             alt={decorative ? '' : post.alt}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            fetchPriority="low"
+            fetchPriority={priority ? 'high' : 'low'}
             onLoad={() => setLoaded(true)}
             onError={() => setFailed(true)}
             className={[

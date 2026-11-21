@@ -49,7 +49,7 @@ export function WorksShowcase({ activeView, onViewChange }: WorksShowcaseProps) 
 
             {activeView === 'brands' ? <BrandsSection /> : null}
             {activeView === 'logos' ? <LogosSection /> : null}
-            {activeView === 'social' ? <SocialMediaSection /> : null}
+            {activeView === 'social' ? <SocialMediaSection prioritize /> : null}
           </motion.div>
         </div>
       </Container>

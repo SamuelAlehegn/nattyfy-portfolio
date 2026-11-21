@@ -116,6 +116,22 @@ describe('WorksPage', () => {
     expect(screen.getByText('Post artwork unavailable')).toBeInTheDocument();
   });
 
+  it('prioritizes first-row artwork and hides repeated collage cards', () => {
+    renderWorks('/works?view=social');
+
+    expect(document.querySelectorAll('article[aria-hidden="true"]')).toHaveLength(6);
+
+    const firstRowImages = screen.getAllByRole('img');
+    expect(firstRowImages).toHaveLength(3);
+
+    firstRowImages.forEach((image) => {
+      expect(image).toHaveAttribute('loading', 'eager');
+      expect(image).toHaveAttribute('fetchpriority', 'high');
+    });
+
+    expect(document.querySelectorAll('img[loading="lazy"]')).toHaveLength(6);
+  });
+
   it('navigates from a brand card to its project page', () => {
     renderWorks();
 
