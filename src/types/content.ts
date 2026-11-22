@@ -10,7 +10,9 @@ export interface Project {
   title: string;
   href: string;
   image: ImageAsset;
-  /** Blurred teaser card with the "Project Name →" overlay. */
+  /** Optional artwork revealed on hover/focus; used by the blurred teaser card. */
+  hoverImage?: ImageAsset;
+  /** Teaser card whose image blurs and reveals the "Project Name →" overlay on hover. */
   blurred?: boolean;
   /** Case-study paragraphs. Optional so a project can ship before its copy is ready. */
   description?: string[];

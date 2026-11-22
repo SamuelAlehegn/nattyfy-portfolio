@@ -28,8 +28,9 @@ const caseStudyGallery = [sharpImage, sharpImage];
 
 /**
  * My Works brand grid and case-study source. The reference repeats the yellow
- * identity mockup and reserves the second slot for the blurred "Project Name"
- * teaser, so the same image pair is reused here until real mockups land.
+ * identity mockup and reserves the second slot for the "Project Name" teaser,
+ * whose sharp artwork blurs on hover. The same image pair is reused here until
+ * real mockups land.
  */
 export const worksProjects: Project[] = [
   {
@@ -47,7 +48,8 @@ export const worksProjects: Project[] = [
     id: 'project-name',
     title: 'Project Name',
     href: '/works/project-name',
-    image: blurredImage,
+    image: sharpImage,
+    hoverImage: blurredImage,
     blurred: true,
     description: [
       'A confidential identity project currently taking shape behind the scenes. The work explores a calm, contemporary visual language for a brand preparing its first public release. The direction favours quiet typography, tactile materials, and a restrained palette that can grow with the brand.',
@@ -137,7 +139,8 @@ export const homeProjects: Project[] = [
     id: 'project-name',
     title: 'Project Name',
     href: '/works',
-    image: blurredImage,
+    image: sharpImage,
+    hoverImage: blurredImage,
     blurred: true,
   },
   {
