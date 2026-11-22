@@ -2,7 +2,7 @@ interface ArrowRightIconProps {
   className?: string;
 }
 
-/** Thin line arrow used by "More →" and the blurred project overlay. */
+/** Thin line arrow used by "More →" and the project hover overlay. */
 export function ArrowRightIcon({ className }: ArrowRightIconProps) {
   return (
     <svg

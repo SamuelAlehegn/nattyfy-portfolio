@@ -1,5 +1,3 @@
-import blur800 from '@/assets/images/portfolio/portfolio-yellow-blur-800.webp';
-import blur1400 from '@/assets/images/portfolio/portfolio-yellow-blur-1400.webp';
 import yellow800 from '@/assets/images/portfolio/portfolio-yellow-800.webp';
 import yellow1400 from '@/assets/images/portfolio/portfolio-yellow-1400.webp';
 import type { Project } from '@/types/content';
@@ -9,13 +7,6 @@ const sharpImage = {
   srcSet: `${yellow800} 800w, ${yellow1400} 1400w`,
   width: 1400,
   height: 998,
-};
-
-const blurredImage = {
-  src: blur1400,
-  srcSet: `${blur800} 800w, ${blur1400} 1400w`,
-  width: 1400,
-  height: 1022,
 };
 
 /**
@@ -28,8 +19,8 @@ const caseStudyGallery = [sharpImage, sharpImage];
 
 /**
  * My Works brand grid and case-study source. The reference repeats the yellow
- * identity mockup and reserves the second slot for the blurred "Project Name"
- * teaser, so the same image pair is reused here until real mockups land.
+ * identity mockup, so the same artwork is reused here until real mockups land.
+ * Every card blurs and reveals its project name on hover.
  */
 export const worksProjects: Project[] = [
   {
@@ -47,8 +38,7 @@ export const worksProjects: Project[] = [
     id: 'project-name',
     title: 'Project Name',
     href: '/works/project-name',
-    image: blurredImage,
-    blurred: true,
+    image: sharpImage,
     description: [
       'A confidential identity project currently taking shape behind the scenes. The work explores a calm, contemporary visual language for a brand preparing its first public release. The direction favours quiet typography, tactile materials, and a restrained palette that can grow with the brand.',
       'The full case study — including the mark, palette, and applied system — will be shared once the launch is live. The teaser card on My Works hints at the direction without giving the story away. A preview of the identity is available on request.',
@@ -137,8 +127,7 @@ export const homeProjects: Project[] = [
     id: 'project-name',
     title: 'Project Name',
     href: '/works',
-    image: blurredImage,
-    blurred: true,
+    image: sharpImage,
   },
   {
     id: 'aurelia',
