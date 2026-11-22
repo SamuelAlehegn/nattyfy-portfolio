@@ -63,7 +63,7 @@ export function HeroSection() {
 
           <motion.p
             variants={textItem}
-            className="mt-6 max-w-[39rem] text-body-lg text-copy lg:mt-14"
+            className="mt-6 max-w-[39rem] text-[clamp(0.8rem,1.28vw,1.2rem)] leading-[1.25] text-copy lg:mt-14"
           >
             I empower businesses to stand out in crowded markets. Crafting logos and identities that
             captivate, setting you apart in today&apos;s competitive landscape.

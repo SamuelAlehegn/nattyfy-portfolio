@@ -7,7 +7,7 @@ interface ProjectCardProps {
   project: Project;
 }
 
-/** Square-cornered, 16:9 portfolio card with skeleton loading and hover lift. */
+/** Square-cornered, 16:9 portfolio card with skeleton loading, hover lift, blur and title reveal. */
 export function ProjectCard({ project }: ProjectCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -44,22 +44,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
         className={[
-          'h-full w-full object-cover transition-[opacity,transform,filter] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[1.04] motion-safe:group-hover:scale-[1.03]',
+          'h-full w-full object-cover transition-[opacity,transform,filter] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[1.04] group-hover:blur-md group-focus-visible:blur-md motion-safe:group-hover:scale-[1.06] motion-safe:group-focus-visible:scale-[1.06]',
           loaded ? 'opacity-100' : 'opacity-0',
         ].join(' ')}
       />
 
-      {project.blurred ? (
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 flex items-center justify-center bg-overlay/55 px-6 text-center transition-colors duration-250 group-hover:bg-overlay/40"
-        >
-          <span className="relative inline-flex items-center gap-2 text-card-overlay font-semibold text-white after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-white after:content-['']">
-            {project.title}
-            <ArrowRightIcon className="size-6 shrink-0" />
-          </span>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center bg-overlay/40 px-6 text-center opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-visible:opacity-100"
+      >
+        <span className="relative inline-flex items-center gap-2 text-card-overlay font-semibold text-white after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-white after:content-['']">
+          {project.title}
+          <ArrowRightIcon className="size-6 shrink-0" />
         </span>
-      ) : null}
+      </span>
     </Link>
   );
 }
