@@ -8,7 +8,7 @@ function SunIcon() {
       aria-hidden="true"
       focusable="false"
       fill="currentColor"
-      className="size-[1.875rem]"
+      className="size-6"
     >
       <path d="M54.03,77.96c-13.19,0-23.93-10.73-23.93-23.93s10.73-23.93,23.93-23.93,23.93,10.73,23.93,23.93-10.73,23.93-23.93,23.93Z" />
       <path d="M54.03,21.49c-2.21,0-4-1.79-4-4V4c0-2.21,1.79-4,4-4s4,1.79,4,4v13.49c0,2.21-1.79,4-4,4Z" />
@@ -26,12 +26,7 @@ function SunIcon() {
 /** Moon from resources/Assets/dark_icon.svg (shown in light mode). */
 function MoonIcon() {
   return (
-    <svg
-      viewBox="0 0 113.87 113.87"
-      aria-hidden="true"
-      focusable="false"
-      className="size-[1.875rem]"
-    >
+    <svg viewBox="0 0 113.87 113.87" aria-hidden="true" focusable="false" className="size-6">
       <circle cx="56.93" cy="56.93" r="56.93" fill="currentColor" />
       <path
         fill="var(--brand-cyan-500)"
@@ -52,7 +47,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={label}
       title={label}
-      className="inline-flex size-11 items-center justify-center rounded-full text-header-fg transition-opacity duration-150 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+      className="inline-flex size-9 items-center justify-center rounded-full text-header-fg transition-opacity duration-150 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

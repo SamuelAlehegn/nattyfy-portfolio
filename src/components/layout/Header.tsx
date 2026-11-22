@@ -20,7 +20,7 @@ function MenuIcon({ open }: { open: boolean }) {
       strokeLinecap="round"
       aria-hidden="true"
       focusable="false"
-      className="size-6"
+      className="size-5"
     >
       {open ? (
         <>
@@ -74,7 +74,7 @@ export function Header() {
                   [
                     'relative py-2 text-nav font-medium transition-colors duration-150 hover:text-accent-hover',
                     isActive
-                      ? "after:absolute after:left-1/2 after:-bottom-0.5 after:h-0.5 after:w-[calc(100%+1.25rem)] after:-translate-x-1/2 after:bg-current after:content-['']"
+                      ? "after:absolute after:left-1/2 after:-bottom-0.5 after:h-0.5 after:w-[calc(100%+1rem)] after:-translate-x-1/2 after:bg-current after:content-['']"
                       : '',
                   ]
                     .filter(Boolean)
@@ -88,7 +88,7 @@ export function Header() {
 
           <Link
             to="/contact"
-            className="inline-flex h-11 items-center justify-center rounded-sm bg-header-fg px-4 text-sm font-semibold whitespace-nowrap text-header transition duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-highlight hover:text-on-highlight hover:shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current lg:h-12 lg:min-w-[12.125rem] lg:px-6 lg:text-button"
+            className="inline-flex h-9 items-center justify-center rounded-sm bg-header-fg px-3 text-xs font-semibold whitespace-nowrap text-header transition duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-highlight hover:text-on-highlight hover:shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current lg:h-10 lg:min-w-[9.7rem] lg:px-5 lg:text-button"
           >
             Contact Me
           </Link>
@@ -104,7 +104,7 @@ export function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className="inline-flex size-11 items-center justify-center rounded-sm transition-colors duration-150 hover:bg-current/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current lg:hidden"
+            className="inline-flex size-9 items-center justify-center rounded-sm transition-colors duration-150 hover:bg-current/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current lg:hidden"
           >
             <MenuIcon open={menuOpen} />
           </button>

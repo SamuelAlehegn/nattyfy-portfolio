@@ -10,12 +10,10 @@ export function Logo() {
     <Link
       to="/"
       aria-label="Natnael Fikreyesus — home"
-      className="inline-flex shrink-0 items-center gap-[0.85rem] text-logo focus-visible:outline-offset-4"
+      className="inline-flex shrink-0 items-center gap-[0.68rem] text-logo focus-visible:outline-offset-4"
     >
-      <BrandMark className="h-[2.3125rem] w-auto" />
-      <span className="hidden font-display text-[1.685625rem] leading-none md:inline">
-        NATNAEL F.
-      </span>
+      <BrandMark className="h-[1.85rem] w-auto" />
+      <span className="hidden font-display text-[1.35rem] leading-none md:inline">NATNAEL F.</span>
     </Link>
   );
 }
