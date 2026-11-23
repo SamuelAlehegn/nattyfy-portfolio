@@ -64,17 +64,17 @@
 
   /* Page backgrounds */
   --gradient-dark-page:
-    radial-gradient(55% 50% at 92% 0%, #24c2c7 0%, rgb(36 194 199 / 0) 70%),
-    radial-gradient(50% 55% at 105% 48%, #418cd9 0%, rgb(65 140 217 / 0) 65%),
+    radial-gradient(55% 50% at 92% 0%, #24c1c79c 0%, rgb(36 194 199 / 0) 70%),
+    radial-gradient(50% 55% at 105% 48%, #418dd9b1 0%, rgb(65 140 217 / 0) 65%),
     linear-gradient(150deg, #12202d 0%, #07151f 55%, #06141e 100%);
   --gradient-light-page: linear-gradient(
     180deg,
     #e6fdfe 0%,
-    #e0f9fc 16%,
-    #caf0f5 25%,
-    #95e1e6 34%,
-    #4ecdd2 43%,
-    #24c2c7 52%,
+    #e0f9fc 70%,
+    #caf0f5 80%,
+    #95e1e6 88%,
+    #4ecdd2 90%,
+    #24c2c7 98%,
     #24c2c7 100%
   );
   --gradient-light-hero: linear-gradient(

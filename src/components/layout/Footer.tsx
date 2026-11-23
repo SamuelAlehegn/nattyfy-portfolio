@@ -29,13 +29,13 @@ export function Footer() {
           <address className="flex not-italic flex-col items-center gap-1.5 md:items-end">
             <a
               href={`mailto:${site.email}`}
-              className="text-contact text-copy underline-offset-4 transition-colors duration-150 hover:text-accent-hover hover:underline"
+              className="text-contact text-copy inline-block transition-all duration-100 hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
             >
               {site.email}
             </a>
             <a
               href={site.phoneHref}
-              className="text-contact-sm text-copy underline-offset-4 transition-colors duration-150 hover:text-accent-hover hover:underline"
+              className="text-contact-sm text-copy inline-block transition-all duration-100 hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
             >
               {site.phoneDisplay}
             </a>
