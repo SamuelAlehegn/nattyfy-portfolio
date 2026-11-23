@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
 import type { SocialPost } from '@/types/content';
 
 interface InstagramCardProps {
   post: SocialPost;
-  /** Desktop rotation in degrees. */
-  tilt: number;
-  /** Tablet rotation in degrees (the design reduces the tilt on tablets). */
-  tabletTilt: number;
   /**
    * Repeated collage cards are purely visual. They stay in the DOM for the
    * layout but are hidden from assistive technology.
@@ -93,13 +88,7 @@ function MoreIcon({ className }: { className?: string }) {
  * controls are decorative spans (not buttons) so they never become dead-end
  * tab stops, and repeated collage copies are hidden from screen readers.
  */
-export function InstagramCard({
-  post,
-  tilt,
-  tabletTilt,
-  decorative = false,
-  priority = false,
-}: InstagramCardProps) {
+export function InstagramCard({ post, decorative = false, priority = false }: InstagramCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -121,16 +110,10 @@ export function InstagramCard({
 
   const [firstHashtag, ...remainingHashtags] = post.hashtags;
 
-  const cardStyle = {
-    '--tilt-md': `${tabletTilt}deg`,
-    '--tilt-lg': `${tilt}deg`,
-  } as CSSProperties;
-
   return (
     <article
       aria-hidden={decorative || undefined}
       aria-label={decorative ? undefined : `${post.title} Instagram post design`}
-      style={cardStyle}
       className="instagram-card w-full overflow-hidden rounded-md bg-[#f5f5f5] text-[#262626]"
     >
       <header aria-hidden="true" className="flex items-center gap-3 px-4 py-4 lg:gap-4 lg:px-5">

@@ -34,8 +34,6 @@ export interface SocialPost {
   likes: number;
   caption: string;
   hashtags: string[];
-  /** Desktop rotation in degrees; the card straightens on hover. */
-  tilt: number;
 }
 
 export type SocialNetwork = 'linkedin' | 'telegram' | 'instagram';
