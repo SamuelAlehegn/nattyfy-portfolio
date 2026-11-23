@@ -20,7 +20,7 @@ const caseStudyGallery = [sharpImage, sharpImage];
 /**
  * My Works brand grid and case-study source. The reference repeats the yellow
  * identity mockup, so the same artwork is reused here until real mockups land.
- * Every card blurs and reveals its project name on hover.
+ * Every card lifts and reveals its project name on hover.
  */
 export const worksProjects: Project[] = [
   {

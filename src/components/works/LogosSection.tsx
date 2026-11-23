@@ -12,7 +12,7 @@ export function LogosSection() {
         {logos.map((logo) => (
           <li
             key={logo.id}
-            className="group relative aspect-[4/3] overflow-hidden transition-shadow duration-350 hover:z-10 hover:shadow-card motion-reduce:transition-none"
+            className="group relative aspect-[4/3] overflow-hidden transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:z-10 hover:shadow-card motion-reduce:transition-none"
             style={{ backgroundColor: logo.background }}
           >
             <img
@@ -23,7 +23,7 @@ export function LogosSection() {
               loading="lazy"
               decoding="async"
               fetchPriority="low"
-              className="h-full w-full object-cover transition-[transform,filter] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-105 motion-safe:group-hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-[scale] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover:scale-[1.04]"
             />
           </li>
         ))}

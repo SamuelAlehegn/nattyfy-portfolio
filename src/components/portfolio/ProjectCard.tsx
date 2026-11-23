@@ -7,7 +7,7 @@ interface ProjectCardProps {
   project: Project;
 }
 
-/** Square-cornered, 16:9 portfolio card with skeleton loading, hover lift, blur and title reveal. */
+/** Square-cornered, 16:9 portfolio card with skeleton loading, hover lift and title reveal. */
 export function ProjectCard({ project }: ProjectCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -24,7 +24,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <Link
       to={project.href}
       aria-label={`View project: ${project.title}`}
-      className="group relative block aspect-video overflow-hidden bg-surface transition-[transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus motion-safe:hover:-translate-y-1"
+      className="group relative block aspect-video overflow-hidden bg-surface transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus motion-safe:hover:-translate-y-1"
     >
       {!loaded && !failed ? (
         <span aria-hidden="true" className="skeleton-shimmer absolute inset-0" />
@@ -44,16 +44,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
         className={[
-          'h-full w-full object-cover transition-[opacity,transform,filter] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[1.04] group-hover:blur-md group-focus-visible:blur-md motion-safe:group-hover:scale-[1.06] motion-safe:group-focus-visible:scale-[1.06]',
+          'h-full w-full object-cover transition-[opacity,scale,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:blur-md group-focus-visible:blur-md motion-safe:group-hover:scale-[1.045] motion-safe:group-focus-visible:scale-[1.045]',
           loaded ? 'opacity-100' : 'opacity-0',
         ].join(' ')}
       />
 
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 flex items-center justify-center bg-overlay/40 px-6 text-center opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/80 via-black/40 to-black/20 px-6 text-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
       >
-        <span className="relative inline-flex items-center gap-2 text-card-overlay font-semibold text-white after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-white after:content-['']">
+        <span className="relative inline-flex max-w-full items-center gap-2 text-balance text-card-overlay font-semibold text-white transition-[translate] duration-300 ease-out after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-highlight after:content-[''] motion-safe:translate-y-2 motion-safe:group-hover:translate-y-0 motion-safe:group-focus-visible:translate-y-0">
           {project.title}
           <ArrowRightIcon className="size-6 shrink-0" />
         </span>
