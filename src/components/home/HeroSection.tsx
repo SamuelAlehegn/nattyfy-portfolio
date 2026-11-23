@@ -79,7 +79,7 @@ export function HeroSection() {
           animate="visible"
           variants={mark}
           aria-hidden="true"
-          className="justify-self-center lg:ml-14"
+          className="order-first justify-self-center lg:order-none lg:ml-14"
         >
           <HeroMark />
         </motion.div>

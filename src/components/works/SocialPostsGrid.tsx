@@ -27,8 +27,8 @@ export function SocialPostsGrid({ prioritize = false }: SocialPostsGridProps) {
       tabIndex={0}
       className="tab-scroller -mx-6 mt-8 overflow-x-auto overscroll-x-contain px-6 pb-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus md:mx-0 md:mt-16 md:overflow-visible md:px-0 md:pb-0 xl:mt-48 xl:px-16"
     >
-      {/* The 11rem inset keeps the rotated corners of the outer cards on screen. */}
-      <ul className="flex snap-x snap-mandatory gap-4 md:mx-auto md:grid md:max-w-[52rem] md:grid-cols-2 md:gap-x-6 md:gap-y-10 xl:max-w-[min(90rem,calc(100vw-11rem))] xl:grid-cols-3 xl:gap-x-0 xl:gap-y-9">
+      {/* Extra inset and gaps keep the straight three-column grid balanced on wide screens. */}
+      <ul className="flex snap-x snap-mandatory gap-4 md:mx-auto md:grid md:max-w-[52rem] md:grid-cols-2 md:gap-x-6 md:gap-y-10 xl:max-w-[min(90rem,calc(100vw-11rem))] xl:grid-cols-3 xl:gap-x-6 xl:gap-y-9">
         {Array.from({ length: SLOT_COUNT }, (_, index) => {
           const post = socialPosts[index % socialPosts.length];
 
@@ -39,8 +39,6 @@ export function SocialPostsGrid({ prioritize = false }: SocialPostsGridProps) {
           const decorative = seenPosts.has(post.id);
           seenPosts.add(post.id);
 
-          const tabletTilt = Math.round(post.tilt * 0.6 * 10) / 10;
-
           return (
             <li
               key={`${post.id}-${index}`}
@@ -48,8 +46,6 @@ export function SocialPostsGrid({ prioritize = false }: SocialPostsGridProps) {
             >
               <InstagramCard
                 post={post}
-                tilt={post.tilt}
-                tabletTilt={tabletTilt}
                 decorative={decorative}
                 priority={prioritize && index < 3}
               />

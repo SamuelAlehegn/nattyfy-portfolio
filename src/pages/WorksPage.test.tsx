@@ -88,7 +88,7 @@ describe('WorksPage', () => {
     expect(screen.queryByRole('heading', { level: 2, name: 'Brands' })).not.toBeInTheDocument();
   });
 
-  it('renders the tilted social media posts collage', () => {
+  it('renders the social media posts grid', () => {
     renderWorks('/works?view=social');
 
     expect(

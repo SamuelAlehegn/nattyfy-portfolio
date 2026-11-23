@@ -4,7 +4,7 @@ import { SocialLinks } from './SocialLinks';
 
 export function Footer() {
   return (
-    <footer className="footer-panel relative z-10 mt-auto overflow-hidden rounded-t-[2.5rem] shadow-panel dark:rounded-none dark:shadow-none">
+    <footer className="footer-panel relative z-10 mt-auto overflow-hidden rounded-t-[2.5rem] shadow-panel">
       <Container className="relative pt-10 pb-12 md:pt-12 md:pb-14">
         <blockquote className="mx-auto max-w-[56rem] text-center">
           <p className="text-quote italic text-heading">

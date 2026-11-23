@@ -20,9 +20,7 @@ function postImage(src: string, src450: string): ImageAsset {
  * live Instagram chrome in `InstagramCard`. Keep captions and hashtags here so
  * new campaigns only need a data entry and artwork file.
  *
- * The reference collage leans every card the same way; the stair-step look
- * comes from rotating identical cards inside the grid. The grid repeats the
- * designs across three rows to match the reference.
+ * The grid repeats the three designs across three rows to match the reference.
  */
 export const socialPosts: SocialPost[] = [
   {
@@ -34,7 +32,6 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -12,
   },
   {
     id: 'miawa-spring-water',
@@ -45,7 +42,6 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -12,
   },
   {
     id: 'haya-sebat',
@@ -56,6 +52,5 @@ export const socialPosts: SocialPost[] = [
     likes: 1992,
     caption: 'The quick brown fox',
     hashtags: ['#OMG', '#NICE', '#cats', '#fine', '#lovely', '#family'],
-    tilt: -12,
   },
 ];

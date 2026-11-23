@@ -5,7 +5,7 @@ interface SocialMediaSectionProps {
   prioritize?: boolean;
 }
 
-/** Social Media Posts view: page label plus the tilted Instagram collage. */
+/** Social Media Posts view: page label plus the Instagram post grid. */
 export function SocialMediaSection({ prioritize = false }: SocialMediaSectionProps) {
   return (
     <section aria-labelledby="social-heading">

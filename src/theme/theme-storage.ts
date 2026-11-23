@@ -1,7 +1,7 @@
 import type { ResolvedTheme, ThemeMode } from '@/types/theme';
 import { THEME_COLORS, THEME_STORAGE_KEY } from './theme-script';
 
-export { THEME_STORAGE_KEY };
+export { DEFAULT_THEME_MODE, THEME_STORAGE_KEY } from './theme-script';
 
 export function isThemeMode(value: unknown): value is ThemeMode {
   return value === 'light' || value === 'dark' || value === 'system';
