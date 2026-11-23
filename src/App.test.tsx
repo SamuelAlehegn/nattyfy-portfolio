@@ -63,13 +63,16 @@ describe('App', () => {
     expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument();
   });
 
-  it('toggles the theme and persists the preference', () => {
+  it('defaults to the dark theme and toggles the preference', () => {
     render(<App />);
 
-    fireEvent.click(screen.getByRole('button', { name: /switch to dark theme/i }));
-
     expect(document.documentElement).toHaveClass('dark');
-    expect(window.localStorage.getItem('natnael-theme')).toBe('dark');
-    expect(screen.getByRole('button', { name: /switch to light theme/i })).toBeInTheDocument();
+    expect(window.localStorage.getItem('natnael-theme')).toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: /switch to light theme/i }));
+
+    expect(document.documentElement).not.toHaveClass('dark');
+    expect(window.localStorage.getItem('natnael-theme')).toBe('light');
+    expect(screen.getByRole('button', { name: /switch to dark theme/i })).toBeInTheDocument();
   });
 });

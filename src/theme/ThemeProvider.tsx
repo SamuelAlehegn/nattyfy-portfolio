@@ -4,6 +4,7 @@ import type { ResolvedTheme, ThemeMode } from '@/types/theme';
 import { ThemeContext } from './theme-context';
 import {
   applyTheme,
+  DEFAULT_THEME_MODE,
   getSystemTheme,
   isThemeMode,
   readStoredTheme,
@@ -18,7 +19,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   // The inline pre-paint script has already applied the correct class. The provider
   // reads the same source of truth and keeps React state in sync with it.
-  const [theme, setThemeState] = useState<ThemeMode>(() => readStoredTheme() ?? 'system');
+  const [theme, setThemeState] = useState<ThemeMode>(() => readStoredTheme() ?? DEFAULT_THEME_MODE);
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
 
   const resolvedTheme: ResolvedTheme = theme === 'system' ? systemTheme : theme;
@@ -57,7 +58,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         return;
       }
 
-      setThemeState(isThemeMode(event.newValue) ? event.newValue : 'system');
+      setThemeState(isThemeMode(event.newValue) ? event.newValue : DEFAULT_THEME_MODE);
     };
 
     window.addEventListener('storage', handleStorage);

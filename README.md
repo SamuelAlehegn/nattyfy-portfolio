@@ -23,7 +23,7 @@ Vite prints the local development URL. Useful commands:
 
 ## Theme system
 
-The theme is class-based: the `dark` class on `<html>` selects dark semantic colors. `src/theme/theme-script.ts` applies the saved theme before the first paint to avoid a flash. `ThemeProvider` supports `system`, `light`, and `dark`, follows system preference when selected, and stores the choice in local storage. Theme colors and design tokens live in `src/styles/tokens.css`; Tailwind CSS 4 utilities and theme mappings are declared in `src/styles/globals.css` with `@theme` and `@theme inline`.
+The theme is class-based: the `dark` class on `<html>` selects dark semantic colors. `src/theme/theme-script.ts` applies the saved theme before the first paint to avoid a flash. `ThemeProvider` defaults to dark on a first visit, supports `system`, `light`, and `dark`, follows system preference when selected, and stores the choice in local storage. Theme colors and design tokens live in `src/styles/tokens.css`; Tailwind CSS 4 utilities and theme mappings are declared in `src/styles/globals.css` with `@theme` and `@theme inline`.
 
 The project uses Tailwind CSS 4's CSS-first configuration, so there is no JavaScript Tailwind config to keep in sync. The exported maintainable design system is the CSS variables in `src/styles/tokens.css`, together with the `@theme` mappings in `src/styles/globals.css`.
 
