@@ -40,7 +40,72 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(
+    () => typeof window !== 'undefined' && window.scrollY > 8,
+  );
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
+  const scrollFrame = useRef<number | null>(null);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const updateHeader = () => {
+      scrollFrame.current = null;
+
+      const currentY = Math.max(window.scrollY, 0);
+      const delta = currentY - lastScrollY.current;
+
+      setScrolled(currentY > 8);
+
+      // Always reveal the header at the top of the page.
+      if (currentY < 24) {
+        lastScrollY.current = currentY;
+        setHidden(false);
+        return;
+      }
+
+      // Ignore tiny scroll jitters so the bar does not flicker.
+      if (Math.abs(delta) < 4) {
+        return;
+      }
+
+      lastScrollY.current = currentY;
+
+      if (menuOpen || headerRef.current?.contains(document.activeElement)) {
+        setHidden(false);
+        return;
+      }
+
+      // Scroll down past the header height to hide it; any upward scroll reveals it.
+      if (delta > 0 && currentY > 96) {
+        setHidden(true);
+      } else if (delta < 0) {
+        setHidden(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (scrollFrame.current !== null) {
+        return;
+      }
+
+      scrollFrame.current = window.requestAnimationFrame(updateHeader);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+
+      if (scrollFrame.current !== null) {
+        window.cancelAnimationFrame(scrollFrame.current);
+        scrollFrame.current = null;
+      }
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) {
@@ -58,9 +123,26 @@ export function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [menuOpen]);
 
+  const headerHidden = hidden && !menuOpen;
+
   return (
-    <header className="sticky top-0 z-50 bg-header text-header-fg transition-colors duration-[250ms]">
-      <Container className="flex h-16 items-center justify-between gap-4 md:h-22">
+    <header
+      ref={headerRef}
+      onFocusCapture={() => setHidden(false)}
+      className={[
+        'sticky top-0 z-50 bg-header text-header-fg transition-[translate,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+        headerHidden ? '-translate-y-full' : 'translate-y-0',
+        scrolled ? 'shadow-nav' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <Container
+        className={[
+          'flex items-center justify-between gap-4 transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          scrolled ? 'h-14 md:h-16' : 'h-16 md:h-22',
+        ].join(' ')}
+      >
         <Logo />
 
         <div className="flex items-center gap-2 md:gap-6 lg:gap-8 2xl:gap-14">

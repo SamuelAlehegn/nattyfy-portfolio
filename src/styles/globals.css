@@ -108,6 +108,9 @@
 @utility shadow-panel {
   box-shadow: var(--shadow-panel);
 }
+@utility shadow-nav {
+  box-shadow: var(--shadow-nav);
+}
 @utility shadow-button {
   box-shadow: var(--shadow-button);
 }
