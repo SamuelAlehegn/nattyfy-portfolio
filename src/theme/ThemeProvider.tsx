@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ResolvedTheme, ThemeMode } from '@/types/theme';
 import { ThemeContext } from './theme-context';
@@ -38,7 +38,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return () => media.removeEventListener('change', handleChange);
   }, []);
 
-  useEffect(() => {
+  // Apply the class before paint so toggling never flashes the previous theme.
+  useLayoutEffect(() => {
     applyTheme(resolvedTheme);
   }, [resolvedTheme]);
 
