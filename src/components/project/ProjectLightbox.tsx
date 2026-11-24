@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRightIcon } from '@/components/ui/ArrowRightIcon';
+import { EASE_OUT } from '@/lib/motion';
 import type { ImageAsset } from '@/types/content';
 
 interface ProjectLightboxProps {
@@ -36,11 +37,23 @@ export function ProjectLightbox({
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     closeRef.current?.focus();
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const body = document.body;
+    const previousOverflow = body.style.overflow;
+    const previousPaddingRight = body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const bodyPaddingRight = Number.parseFloat(getComputedStyle(body).paddingRight) || 0;
+
+    body.style.overflow = 'hidden';
+
+    // Replace the width taken by a classic scrollbar so hiding it does not shift
+    // the page behind the dialog.
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${bodyPaddingRight + scrollbarWidth}px`;
+    }
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      body.style.paddingRight = previousPaddingRight;
       restoreFocusRef.current?.focus();
     };
   }, []);
@@ -124,8 +137,13 @@ export function ProjectLightbox({
         role="dialog"
         aria-modal="true"
         aria-label={`${title} image viewer`}
+        aria-describedby="project-lightbox-instructions"
         className="relative inline-flex max-h-[90vh] max-w-[90vw] items-center justify-center"
       >
+        <p id="project-lightbox-instructions" className="sr-only">
+          Use the left and right arrow keys to move between images. Press Escape to close.
+        </p>
+
         <motion.img
           key={`${image.src}-${index}`}
           src={image.src}
@@ -138,7 +156,7 @@ export function ProjectLightbox({
           animate={{ opacity: 1, scale: 1 }}
           transition={{
             duration: reduceMotion ? 0 : 0.25,
-            ease: [0.22, 1, 0.36, 1],
+            ease: EASE_OUT,
           }}
         />
 
@@ -186,6 +204,7 @@ export function ProjectLightbox({
 
         <p
           aria-live="polite"
+          aria-atomic="true"
           className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-[rgb(7_21_31_/_0.82)] px-3 py-1 text-small font-medium text-white"
         >
           {index + 1} / {images.length}

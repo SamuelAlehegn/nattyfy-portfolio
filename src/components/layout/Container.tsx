@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/cn';
 
 interface ContainerProps {
   children: ReactNode;
@@ -6,5 +7,5 @@ interface ContainerProps {
 }
 
 export function Container({ children, className }: ContainerProps) {
-  return <div className={['container-site', className].filter(Boolean).join(' ')}>{children}</div>;
+  return <div className={cn('container-site', className)}>{children}</div>;
 }

@@ -1,8 +1,11 @@
+import { memo } from 'react';
 import { site } from '@/data/site';
 import { Container } from './Container';
 import { SocialLinks } from './SocialLinks';
 
-export function Footer() {
+export const Footer = memo(function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="footer-panel relative z-10 mt-auto overflow-hidden rounded-t-[2.5rem] shadow-panel">
       <Container className="relative pt-10 pb-12 md:pt-12 md:pb-14">
@@ -46,9 +49,9 @@ export function Footer() {
         <p className="mt-12 text-center text-nav text-copy md:mt-16">
           Thank You for Visiting!
           <br />
-          <span className="text-muted">&copy;2026</span>
+          <span className="text-muted">&copy;{year}</span>
         </p>
       </Container>
     </footer>
   );
-}
+});

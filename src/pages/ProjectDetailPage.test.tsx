@@ -35,6 +35,7 @@ describe('ProjectDetailPage', () => {
       'href',
       '/works/project-name',
     );
+    expect(document.title).toBe('Golden Hour — Natnael Fikreyesus');
   });
 
   it('cycles the next-project link from the last project back to the first', () => {
@@ -50,6 +51,7 @@ describe('ProjectDetailPage', () => {
     renderDetail('not-a-project');
 
     expect(screen.getByRole('heading', { level: 1, name: 'Page not found' })).toBeInTheDocument();
+    expect(document.title).toBe('Page not found — Natnael Fikreyesus');
   });
 
   it('opens the lightbox, navigates with the keyboard, and restores focus on close', () => {

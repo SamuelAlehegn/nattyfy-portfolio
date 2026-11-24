@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { memo, useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Logo } from '@/components/ui/Logo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { cn } from '@/lib/cn';
 import { Container } from './Container';
 
 const navigation = [
@@ -9,6 +10,19 @@ const navigation = [
   { label: 'My Works', to: '/works' },
   { label: 'About Me', to: '/about' },
 ] as const;
+
+const desktopNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    'relative py-2 text-nav font-medium transition-colors duration-150 hover:text-accent-hover',
+    isActive &&
+      "after:absolute after:left-1/2 after:-bottom-0.5 after:h-0.5 after:w-[calc(100%+1rem)] after:-translate-x-1/2 after:bg-current after:content-['']",
+  );
+
+const mobileNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    'flex min-h-12 items-center text-nav font-medium transition-colors duration-150 hover:text-accent-hover',
+    isActive && 'underline decoration-2 underline-offset-8',
+  );
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -38,16 +52,41 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-export function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+export const Header = memo(function Header() {
+  const location = useLocation();
+  const [menuOpenedAt, setMenuOpenedAt] = useState<string | null>(null);
+  const menuOpen = menuOpenedAt === location.key;
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(
     () => typeof window !== 'undefined' && window.scrollY > 8,
   );
+  const menuOpenRef = useRef(menuOpen);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
   const scrollFrame = useRef<number | null>(null);
+
+  useEffect(() => {
+    menuOpenRef.current = menuOpen;
+  }, [menuOpen]);
+
+  // Crossing into the desktop breakpoint unmounts the visual menu. Reset the
+  // state too, otherwise the header would remain stuck in "menu open" scroll mode.
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return;
+    }
+
+    const media = window.matchMedia('(min-width: 64rem)');
+    const handleChange = () => {
+      if (media.matches) {
+        setMenuOpenedAt(null);
+      }
+    };
+
+    media.addEventListener('change', handleChange);
+    return () => media.removeEventListener('change', handleChange);
+  }, []);
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -58,7 +97,10 @@ export function Header() {
       const currentY = Math.max(window.scrollY, 0);
       const delta = currentY - lastScrollY.current;
 
-      setScrolled(currentY > 8);
+      setScrolled((current) => {
+        const nextScrolled = currentY > 8;
+        return current === nextScrolled ? current : nextScrolled;
+      });
 
       // Always reveal the header at the top of the page.
       if (currentY < 24) {
@@ -74,7 +116,7 @@ export function Header() {
 
       lastScrollY.current = currentY;
 
-      if (menuOpen || headerRef.current?.contains(document.activeElement)) {
+      if (menuOpenRef.current || headerRef.current?.contains(document.activeElement)) {
         setHidden(false);
         return;
       }
@@ -105,7 +147,7 @@ export function Header() {
         scrollFrame.current = null;
       }
     };
-  }, [menuOpen]);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) {
@@ -114,7 +156,7 @@ export function Header() {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setMenuOpen(false);
+        setMenuOpenedAt(null);
         menuButtonRef.current?.focus();
       }
     };
@@ -123,27 +165,26 @@ export function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [menuOpen]);
 
+  const closeMenu = () => setMenuOpenedAt(null);
   const headerHidden = hidden && !menuOpen;
 
   return (
     <header
       ref={headerRef}
       onFocusCapture={() => setHidden(false)}
-      className={[
+      className={cn(
         'sticky top-0 z-50 bg-header text-header-fg transition-[translate,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
         headerHidden ? '-translate-y-full' : 'translate-y-0',
-        scrolled ? 'shadow-nav' : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
+        scrolled && 'shadow-nav',
+      )}
     >
       <Container
-        className={[
+        className={cn(
           'flex items-center justify-between gap-4 transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
           scrolled ? 'h-14 md:h-16' : 'h-16 md:h-22',
-        ].join(' ')}
+        )}
       >
-        <Logo />
+        <Logo onNavigate={closeMenu} />
 
         <div className="flex items-center gap-2 md:gap-6 lg:gap-8 2xl:gap-14">
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex xl:gap-14">
@@ -152,16 +193,7 @@ export function Header() {
                 key={item.to}
                 to={item.to}
                 end={item.to === '/'}
-                className={({ isActive }) =>
-                  [
-                    'relative py-2 text-nav font-medium transition-colors duration-150 hover:text-accent-hover',
-                    isActive
-                      ? "after:absolute after:left-1/2 after:-bottom-0.5 after:h-0.5 after:w-[calc(100%+1rem)] after:-translate-x-1/2 after:bg-current after:content-['']"
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')
-                }
+                className={desktopNavLinkClass}
               >
                 {item.label}
               </NavLink>
@@ -170,6 +202,7 @@ export function Header() {
 
           <Link
             to="/contact"
+            onClick={closeMenu}
             className="inline-flex h-9 items-center justify-center rounded-sm bg-header-fg px-3 text-xs font-semibold whitespace-nowrap text-header transition duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-highlight hover:text-on-highlight hover:shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current lg:h-10 lg:min-w-[9.7rem] lg:px-5 lg:text-button"
           >
             Contact Me
@@ -182,7 +215,9 @@ export function Header() {
           <button
             ref={menuButtonRef}
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() =>
+              setMenuOpenedAt((current) => (current === location.key ? null : location.key))
+            }
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -204,15 +239,8 @@ export function Header() {
               key={item.to}
               to={item.to}
               end={item.to === '/'}
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) =>
-                [
-                  'flex min-h-12 items-center text-nav font-medium transition-colors duration-150 hover:text-accent-hover',
-                  isActive ? 'underline decoration-2 underline-offset-8' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')
-              }
+              onClick={closeMenu}
+              className={mobileNavLinkClass}
             >
               {item.label}
             </NavLink>
@@ -221,4 +249,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+});

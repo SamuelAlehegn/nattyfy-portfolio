@@ -1,7 +1,21 @@
 import { useParams } from 'react-router-dom';
 import { ProjectDetail } from '@/components/project/ProjectDetail';
 import { worksProjects } from '@/data/projects';
+import { usePageTitle } from '@/lib/usePageTitle';
+import type { Project } from '@/types/content';
 import { NotFoundPage } from './NotFoundPage';
+
+interface ProjectDetailContentProps {
+  project: Project;
+  nextProject: Project | null;
+}
+
+/** Keeps the title hook out of the not-found branch so hooks stay unconditional. */
+function ProjectDetailContent({ project, nextProject }: ProjectDetailContentProps) {
+  usePageTitle(project.title);
+
+  return <ProjectDetail project={project} nextProject={nextProject} />;
+}
 
 /**
  * Data-driven case-study route. The project is resolved from `worksProjects`,
@@ -21,5 +35,5 @@ export function ProjectDetailPage() {
       ? (worksProjects[(projectIndex + 1) % worksProjects.length] ?? null)
       : null;
 
-  return <ProjectDetail project={project} nextProject={nextProject} />;
+  return <ProjectDetailContent project={project} nextProject={nextProject} />;
 }

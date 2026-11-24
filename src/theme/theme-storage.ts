@@ -41,10 +41,6 @@ export function getSystemTheme(): ResolvedTheme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-export function resolveTheme(theme: ThemeMode): ResolvedTheme {
-  return theme === 'system' ? getSystemTheme() : theme;
-}
-
 export function applyTheme(resolved: ResolvedTheme): void {
   if (typeof document === 'undefined') {
     return;

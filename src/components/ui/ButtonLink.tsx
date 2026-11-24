@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { cn } from '@/lib/cn';
 
 type ButtonVariant = 'primary' | 'outline';
 type ButtonSize = 'md' | 'lg';
@@ -39,7 +40,7 @@ export function ButtonLink({
     <Link
       to={to}
       aria-label={ariaLabel}
-      className={[baseClasses, variants[variant], sizes[size], className].filter(Boolean).join(' ')}
+      className={cn(baseClasses, variants[variant], sizes[size], className)}
     >
       {children}
     </Link>

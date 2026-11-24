@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { Container } from '@/components/layout/Container';
+import { EASE_OUT } from '@/lib/motion';
 import { BrandsSection } from './BrandsSection';
 import { LogosSection } from './LogosSection';
 import { SocialMediaSection } from './SocialMediaSection';
@@ -10,8 +11,6 @@ interface WorksShowcaseProps {
   activeView: WorksView;
   onViewChange: (view: WorksView) => void;
 }
-
-const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 /** Tabs and the filtered brand/logo/social panels below the page title. */
 export function WorksShowcase({ activeView, onViewChange }: WorksShowcaseProps) {
@@ -33,11 +32,11 @@ export function WorksShowcase({ activeView, onViewChange }: WorksShowcaseProps) 
             key={activeView}
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.3, ease: easeOut }}
+            transition={{ duration: reduceMotion ? 0 : 0.3, ease: EASE_OUT }}
           >
             {activeView === 'all' ? (
               <>
-                <BrandsSection />
+                <BrandsSection prioritize />
                 <div className="mt-20 md:mt-28">
                   <LogosSection />
                 </div>
@@ -47,8 +46,8 @@ export function WorksShowcase({ activeView, onViewChange }: WorksShowcaseProps) 
               </>
             ) : null}
 
-            {activeView === 'brands' ? <BrandsSection /> : null}
-            {activeView === 'logos' ? <LogosSection /> : null}
+            {activeView === 'brands' ? <BrandsSection prioritize /> : null}
+            {activeView === 'logos' ? <LogosSection prioritize /> : null}
             {activeView === 'social' ? <SocialMediaSection prioritize /> : null}
           </motion.div>
         </div>

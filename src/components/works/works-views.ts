@@ -6,3 +6,7 @@ export const worksViews: ReadonlyArray<{ id: WorksView; label: string }> = [
   { id: 'logos', label: 'Logos' },
   { id: 'social', label: 'Social Media' },
 ];
+
+export function isWorksView(value: string | null): value is WorksView {
+  return worksViews.some((view) => view.id === value);
+}

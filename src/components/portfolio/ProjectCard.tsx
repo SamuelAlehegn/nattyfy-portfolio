@@ -1,24 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon } from '@/components/ui/ArrowRightIcon';
+import { cn } from '@/lib/cn';
+import { useImageStatus } from '@/lib/useImageStatus';
 import type { Project } from '@/types/content';
 
 interface ProjectCardProps {
   project: Project;
+  /** Eager-load an above-the-fold card, such as the first row of a filtered view. */
+  priority?: boolean;
 }
 
 /** Square-cornered, 16:9 portfolio card with skeleton loading, hover lift and title reveal. */
-export function ProjectCard({ project }: ProjectCardProps) {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    // Cached images may finish before React attaches onLoad.
-    if (imageRef.current?.complete) {
-      setLoaded(true);
-    }
-  }, []);
+export function ProjectCard({ project, priority = false }: ProjectCardProps) {
+  const { imageRef, loaded, failed, onLoad, onError } = useImageStatus(project.image.src);
 
   return (
     <Link
@@ -30,24 +24,33 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <span aria-hidden="true" className="skeleton-shimmer absolute inset-0" />
       ) : null}
 
-      <img
-        ref={imageRef}
-        src={project.image.src}
-        srcSet={project.image.srcSet}
-        sizes="(min-width: 1536px) 758px, (min-width: 768px) calc(50vw - 2.5rem), calc(100vw - 3rem)"
-        width={project.image.width}
-        height={project.image.height}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        fetchPriority="low"
-        onLoad={() => setLoaded(true)}
-        onError={() => setFailed(true)}
-        className={[
-          'h-full w-full object-cover transition-[opacity,scale,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:blur-md group-focus-visible:blur-md motion-safe:group-hover:scale-[1.045] motion-safe:group-focus-visible:scale-[1.045]',
-          loaded ? 'opacity-100' : 'opacity-0',
-        ].join(' ')}
-      />
+      {failed ? (
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 flex items-center justify-center bg-surface px-6 text-center text-small text-muted"
+        >
+          {project.title}
+        </span>
+      ) : (
+        <img
+          ref={imageRef}
+          src={project.image.src}
+          srcSet={project.image.srcSet}
+          sizes="(min-width: 1536px) 758px, (min-width: 768px) calc(50vw - 2.5rem), calc(100vw - 3rem)"
+          width={project.image.width}
+          height={project.image.height}
+          alt=""
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchPriority={priority ? 'high' : 'low'}
+          onLoad={onLoad}
+          onError={onError}
+          className={cn(
+            'h-full w-full object-cover transition-[opacity,scale,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:blur-md group-focus-visible:blur-md motion-safe:group-hover:scale-[1.045] motion-safe:group-focus-visible:scale-[1.045]',
+            loaded ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+      )}
 
       <span
         aria-hidden="true"

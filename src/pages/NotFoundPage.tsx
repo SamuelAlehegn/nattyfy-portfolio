@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Container } from '@/components/layout/Container';
+import { usePageTitle } from '@/lib/usePageTitle';
 
 export function NotFoundPage() {
+  usePageTitle('Page not found');
+
   return (
     <Container className="py-24 text-center md:py-32">
       <p className="font-display text-display-2 text-brand">404</p>

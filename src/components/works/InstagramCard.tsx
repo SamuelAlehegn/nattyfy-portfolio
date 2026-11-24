@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/lib/cn';
+import { useImageStatus } from '@/lib/useImageStatus';
 import type { SocialPost } from '@/types/content';
 
 interface InstagramCardProps {
@@ -89,25 +90,7 @@ function MoreIcon({ className }: { className?: string }) {
  * tab stops, and repeated collage copies are hidden from screen readers.
  */
 export function InstagramCard({ post, decorative = false, priority = false }: InstagramCardProps) {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    // Cached images may finish before React attaches onLoad.
-    const image = imageRef.current;
-
-    if (!image?.complete) {
-      return;
-    }
-
-    if (image.naturalWidth === 0) {
-      setFailed(true);
-    } else {
-      setLoaded(true);
-    }
-  }, []);
-
+  const { imageRef, loaded, failed, onLoad, onError } = useImageStatus(post.image.src);
   const [firstHashtag, ...remainingHashtags] = post.hashtags;
 
   return (
@@ -151,12 +134,12 @@ export function InstagramCard({ post, decorative = false, priority = false }: In
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
             fetchPriority={priority ? 'high' : 'low'}
-            onLoad={() => setLoaded(true)}
-            onError={() => setFailed(true)}
-            className={[
+            onLoad={onLoad}
+            onError={onError}
+            className={cn(
               'h-full w-full object-cover transition-opacity duration-350',
               loaded ? 'opacity-100' : 'opacity-0',
-            ].join(' ')}
+            )}
           />
         )}
       </div>

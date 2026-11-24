@@ -2,20 +2,28 @@ import { useState, type FormEvent } from 'react';
 import { Container } from '@/components/layout/Container';
 import { SocialLinks } from '@/components/layout/SocialLinks';
 import { site } from '@/data/site';
+import { usePageTitle } from '@/lib/usePageTitle';
 
 type FormStatus = { type: 'success' | 'error'; message: string } | null;
 
+const fieldClassName =
+  'min-h-12 w-full rounded-sm border border-border bg-page px-4 text-copy placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
+
 export function ContactPage() {
+  usePageTitle('Contact');
+
   const [status, setStatus] = useState<FormStatus>(null);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
+
     if (!form.reportValidity()) {
       setStatus({
         type: 'error',
         message: 'Please complete each field with a valid email address.',
       });
+      form.querySelector<HTMLElement>(':invalid')?.focus();
       return;
     }
 
@@ -24,6 +32,7 @@ export function ContactPage() {
     const body = encodeURIComponent(
       `From: ${String(data.get('name'))} (${String(data.get('email'))})\n\n${String(data.get('message'))}`,
     );
+
     window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
     setStatus({
       type: 'success',
@@ -31,6 +40,8 @@ export function ContactPage() {
     });
     form.reset();
   }
+
+  const statusIsError = status?.type === 'error';
 
   return (
     <Container className="py-16 md:py-24 lg:py-32">
@@ -62,7 +73,7 @@ export function ContactPage() {
               autoComplete="name"
               required
               maxLength={120}
-              className="min-h-12 w-full rounded-sm border border-border bg-page px-4 text-copy placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+              className={fieldClassName}
             />
           </div>
           <div>
@@ -76,7 +87,7 @@ export function ContactPage() {
               autoComplete="email"
               required
               maxLength={254}
-              className="min-h-12 w-full rounded-sm border border-border bg-page px-4 text-copy placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+              className={fieldClassName}
             />
           </div>
           <div>
@@ -89,18 +100,20 @@ export function ContactPage() {
               rows={6}
               required
               maxLength={5000}
-              className="w-full resize-y rounded-sm border border-border bg-page px-4 py-3 text-copy placeholder:text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+              className={`${fieldClassName} resize-y py-3`}
             />
           </div>
-          {status && (
+          {status ? (
             <p
-              role="status"
-              aria-live="polite"
-              className={status.type === 'success' ? 'text-success' : 'text-danger'}
+              id="contact-status"
+              role={statusIsError ? 'alert' : 'status'}
+              aria-live={statusIsError ? 'assertive' : 'polite'}
+              aria-atomic="true"
+              className={statusIsError ? 'text-danger' : 'text-success'}
             >
               {status.message}
             </p>
-          )}
+          ) : null}
           <button
             type="submit"
             className="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-primary px-7 font-semibold text-on-primary transition duration-200 hover:-translate-y-0.5 hover:bg-highlight hover:text-on-highlight hover:shadow-button focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus sm:w-auto sm:min-w-56"

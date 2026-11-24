@@ -38,6 +38,7 @@ describe('App', () => {
     );
     expect(screen.getByText(/design is the silent ambassador/i)).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /opens in a new tab/i })).toHaveLength(3);
+    expect(document.title).toBe('Natnael F. Portfolio — Logo & Brand Identity Designer');
   });
 
   it('opens and closes the mobile navigation menu', () => {
