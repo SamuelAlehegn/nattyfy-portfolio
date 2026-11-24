@@ -10,7 +10,8 @@ export function ScrollToTop() {
 
   useLayoutEffect(() => {
     if (!hash && window.scrollY > 0) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      // `instant` bypasses the global smooth-scroll setting for route changes.
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   }, [pathname, hash]);
 

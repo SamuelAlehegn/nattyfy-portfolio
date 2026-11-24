@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { socialLinks } from '@/data/site';
+import { cn } from '@/lib/cn';
 import type { SocialNetwork } from '@/types/content';
 
 interface IconProps {
@@ -64,7 +65,7 @@ interface SocialLinksProps {
 
 export function SocialLinks({ className }: SocialLinksProps) {
   return (
-    <ul className={['flex items-center gap-1.5', className].filter(Boolean).join(' ')}>
+    <ul className={cn('flex items-center gap-1.5', className)}>
       {socialLinks.map((link) => {
         const Icon = icons[link.id];
 
