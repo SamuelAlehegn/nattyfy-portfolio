@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { ThemeProvider } from '@/theme/ThemeProvider';
@@ -19,7 +19,7 @@ function renderHeader() {
 }
 
 describe('Header', () => {
-  it('closes the mobile menu after navigating', () => {
+  it('closes the mobile menu after navigating', async () => {
     renderHeader();
 
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
@@ -32,7 +32,9 @@ describe('Header', () => {
       'aria-expanded',
       'false',
     );
-    expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument(),
+    );
   });
 
   it('closes the mobile menu with Escape and returns focus to the toggle', () => {
