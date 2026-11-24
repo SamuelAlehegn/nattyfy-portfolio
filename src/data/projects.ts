@@ -113,44 +113,12 @@ export const worksProjects: Project[] = [
 ];
 
 /**
- * Homepage portfolio highlight. Replace these entries with real project data
- * when the project details routes land in Phase 4.
+ * Homepage portfolio highlight. Cards link to the Works index rather than a
+ * case study, matching the home-page design; the first six projects are shown.
  */
-export const homeProjects: Project[] = [
-  {
-    id: 'golden-hour',
-    title: 'Golden Hour',
-    href: '/works',
-    image: sharpImage,
-  },
-  {
-    id: 'project-name',
-    title: 'Project Name',
-    href: '/works',
-    image: sharpImage,
-  },
-  {
-    id: 'aurelia',
-    title: 'Aurelia',
-    href: '/works',
-    image: sharpImage,
-  },
-  {
-    id: 'solstice',
-    title: 'Solstice',
-    href: '/works',
-    image: sharpImage,
-  },
-  {
-    id: 'amber-and-co',
-    title: 'Amber & Co.',
-    href: '/works',
-    image: sharpImage,
-  },
-  {
-    id: 'maison',
-    title: 'Maison',
-    href: '/works',
-    image: sharpImage,
-  },
-];
+export const homeProjects: Project[] = worksProjects.slice(0, 6).map(({ id, title, image }) => ({
+  id,
+  title,
+  href: '/works',
+  image,
+}));

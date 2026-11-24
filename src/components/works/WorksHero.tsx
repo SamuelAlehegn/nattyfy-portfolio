@@ -1,31 +1,35 @@
+import { useMemo } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import type { Variants } from 'motion/react';
 import { Container } from '@/components/layout/Container';
-
-const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
+import { EASE_OUT } from '@/lib/motion';
 
 /** Stacked My Works page title with the same grid and motion as the home hero. */
 export function WorksHero() {
   const reduceMotion = useReducedMotion() ?? false;
 
-  const textGroup: Variants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: reduceMotion ? 0 : 0.08,
-        delayChildren: reduceMotion ? 0 : 0.06,
+  const variants = useMemo(() => {
+    const textGroup: Variants = {
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: reduceMotion ? 0 : 0.08,
+          delayChildren: reduceMotion ? 0 : 0.06,
+        },
       },
-    },
-  };
+    };
 
-  const textItem: Variants = {
-    hidden: { opacity: 0, y: reduceMotion ? 0 : 24 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: reduceMotion ? 0 : 0.6, ease: easeOut },
-    },
-  };
+    const textItem: Variants = {
+      hidden: { opacity: 0, y: reduceMotion ? 0 : 24 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: reduceMotion ? 0 : 0.6, ease: EASE_OUT },
+      },
+    };
+
+    return { textGroup, textItem };
+  }, [reduceMotion]);
 
   return (
     <section
@@ -36,14 +40,17 @@ export function WorksHero() {
         <motion.div
           initial={reduceMotion ? false : 'hidden'}
           animate="visible"
-          variants={textGroup}
+          variants={variants.textGroup}
         >
-          <motion.p variants={textItem} className="text-page-kicker font-semibold text-heading">
+          <motion.p
+            variants={variants.textItem}
+            className="text-page-kicker font-semibold text-heading"
+          >
             Some of
           </motion.p>
           <motion.h1
             id="works-title"
-            variants={textItem}
+            variants={variants.textItem}
             className="text-page-title font-extrabold text-heading"
           >
             MY WORKS

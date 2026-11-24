@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { cn } from '@/lib/cn';
 import type { WorksView } from './works-views';
 import { worksViews } from './works-views';
 
@@ -15,38 +16,41 @@ const spring = { type: 'spring', stiffness: 420, damping: 34, mass: 0.7 } as con
  * Accessible category tabs. Arrow keys, Home, and End move selection while the
  * shared layout id slides the active underline between labels.
  */
-export function WorksTabs({ activeView, onViewChange }: WorksTabsProps) {
+export const WorksTabs = memo(function WorksTabs({ activeView, onViewChange }: WorksTabsProps) {
   const reduceMotion = useReducedMotion() ?? false;
   const tabRefs = useRef(new Map<WorksView, HTMLButtonElement>());
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const currentIndex = worksViews.findIndex((view) => view.id === activeView);
-    let nextIndex: number | undefined;
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      const currentIndex = worksViews.findIndex((view) => view.id === activeView);
+      let nextIndex: number | undefined;
 
-    if (event.key === 'ArrowRight') {
-      nextIndex = (currentIndex + 1) % worksViews.length;
-    } else if (event.key === 'ArrowLeft') {
-      nextIndex = (currentIndex - 1 + worksViews.length) % worksViews.length;
-    } else if (event.key === 'Home') {
-      nextIndex = 0;
-    } else if (event.key === 'End') {
-      nextIndex = worksViews.length - 1;
-    }
+      if (event.key === 'ArrowRight') {
+        nextIndex = (currentIndex + 1) % worksViews.length;
+      } else if (event.key === 'ArrowLeft') {
+        nextIndex = (currentIndex - 1 + worksViews.length) % worksViews.length;
+      } else if (event.key === 'Home') {
+        nextIndex = 0;
+      } else if (event.key === 'End') {
+        nextIndex = worksViews.length - 1;
+      }
 
-    if (nextIndex === undefined) {
-      return;
-    }
+      if (nextIndex === undefined) {
+        return;
+      }
 
-    const nextView = worksViews[nextIndex];
+      const nextView = worksViews[nextIndex];
 
-    if (!nextView) {
-      return;
-    }
+      if (!nextView) {
+        return;
+      }
 
-    event.preventDefault();
-    onViewChange(nextView.id);
-    tabRefs.current.get(nextView.id)?.focus();
-  };
+      event.preventDefault();
+      onViewChange(nextView.id);
+      tabRefs.current.get(nextView.id)?.focus();
+    },
+    [activeView, onViewChange],
+  );
 
   return (
     <div className="tab-scroller -mx-6 overflow-x-auto px-6 py-1 md:mx-0 md:px-0">
@@ -76,10 +80,10 @@ export function WorksTabs({ activeView, onViewChange }: WorksTabsProps) {
               aria-controls="works-view"
               tabIndex={selected ? 0 : -1}
               onClick={() => onViewChange(view.id)}
-              className={[
+              className={cn(
                 'relative -mb-px flex min-h-11 items-center whitespace-nowrap px-0.5 pt-1 pb-3 text-nav font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
                 selected ? 'text-heading' : 'text-heading/65 hover:text-heading',
-              ].join(' ')}
+              )}
             >
               {view.label}
               {selected ? (
@@ -96,4 +100,4 @@ export function WorksTabs({ activeView, onViewChange }: WorksTabsProps) {
       </div>
     </div>
   );
-}
+});

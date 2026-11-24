@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { cn } from '@/lib/cn';
+import { EASE_OUT } from '@/lib/motion';
+import { useImageStatus } from '@/lib/useImageStatus';
 import type { ImageAsset } from '@/types/content';
 import { ProjectLightbox } from './ProjectLightbox';
 
@@ -12,10 +15,8 @@ interface GalleryFrameProps {
   image: ImageAsset;
   index: number;
   title: string;
-  onOpen: () => void;
+  onOpen: (index: number) => void;
 }
-
-const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 /**
  * Full-width case-study gallery with a one-shot scroll reveal. Missing
@@ -24,6 +25,7 @@ const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 export function ProjectGallery({ title, images = [] }: ProjectGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
+  const openImage = useCallback((index: number) => setActiveIndex(index), []);
   const closeLightbox = useCallback(() => setActiveIndex(null), []);
 
   const navigate = useCallback(
@@ -53,7 +55,7 @@ export function ProjectGallery({ title, images = [] }: ProjectGalleryProps) {
               image={image}
               index={index}
               title={title}
-              onOpen={() => setActiveIndex(index)}
+              onOpen={openImage}
             />
           ))}
         </ul>
@@ -78,21 +80,17 @@ export function ProjectGallery({ title, images = [] }: ProjectGalleryProps) {
   );
 }
 
-function GalleryFrame({ image, index, title, onOpen }: GalleryFrameProps) {
+const GalleryFrame = memo(function GalleryFrame({
+  image,
+  index,
+  title,
+  onOpen,
+}: GalleryFrameProps) {
   const reduceMotion = useReducedMotion() ?? false;
   const frameRef = useRef<HTMLLIElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const { imageRef, loaded, failed, onLoad, onError } = useImageStatus(image.src);
   // Test environments and older browsers have no observer, so reveal eagerly.
   const [revealed, setRevealed] = useState(() => typeof IntersectionObserver === 'undefined');
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    // Cached images may finish before React attaches onLoad.
-    if (imageRef.current?.complete) {
-      setLoaded(true);
-    }
-  }, []);
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -121,7 +119,7 @@ function GalleryFrame({ image, index, title, onOpen }: GalleryFrameProps) {
       ref={frameRef}
       initial={reduceMotion ? false : { opacity: 0, scale: 1.03 }}
       animate={revealed ? { opacity: 1, scale: 1 } : undefined}
-      transition={{ duration: reduceMotion ? 0 : 0.6, ease: easeOut }}
+      transition={{ duration: reduceMotion ? 0 : 0.6, ease: EASE_OUT }}
       className="overflow-hidden"
     >
       {failed ? (
@@ -131,7 +129,7 @@ function GalleryFrame({ image, index, title, onOpen }: GalleryFrameProps) {
       ) : (
         <button
           type="button"
-          onClick={onOpen}
+          onClick={() => onOpen(index)}
           aria-label={`View ${title} image ${index + 1} larger`}
           aria-haspopup="dialog"
           className="group relative block aspect-video w-full cursor-zoom-in overflow-hidden bg-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
@@ -151,15 +149,15 @@ function GalleryFrame({ image, index, title, onOpen }: GalleryFrameProps) {
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
             fetchPriority={index === 0 ? 'high' : 'low'}
-            onLoad={() => setLoaded(true)}
-            onError={() => setFailed(true)}
-            className={[
+            onLoad={onLoad}
+            onError={onError}
+            className={cn(
               'h-full w-full object-cover transition-[opacity,transform] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover:scale-[1.01]',
               loaded ? 'opacity-100' : 'opacity-0',
-            ].join(' ')}
+            )}
           />
         </button>
       )}
     </motion.li>
   );
-}
+});
