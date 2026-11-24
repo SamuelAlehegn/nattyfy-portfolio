@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from './App';
 
@@ -41,7 +41,7 @@ describe('App', () => {
     expect(document.title).toBe('Natnael F. Portfolio — Logo & Brand Identity Designer');
   });
 
-  it('opens and closes the mobile navigation menu', () => {
+  it('opens and closes the mobile navigation menu', async () => {
     render(<App />);
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
@@ -61,7 +61,9 @@ describe('App', () => {
       'aria-expanded',
       'false',
     );
-    expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument(),
+    );
   });
 
   it('defaults to the dark theme and toggles the preference', () => {
