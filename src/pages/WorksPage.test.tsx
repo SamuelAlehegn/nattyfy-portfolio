@@ -40,6 +40,7 @@ describe('WorksPage', () => {
       'href',
       '/works/project-name',
     );
+    expect(document.title).toBe('My Works — Natnael Fikreyesus');
   });
 
   it('filters between the brand and logo grids', () => {

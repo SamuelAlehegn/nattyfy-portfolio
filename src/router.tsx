@@ -1,11 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { RouteHydrateFallback } from '@/components/layout/RouteHydrateFallback';
 import { RootLayout } from '@/layouts/RootLayout';
-import { AboutPage } from '@/pages/AboutPage';
-import { ContactPage } from '@/pages/ContactPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
-import { ProjectDetailPage } from '@/pages/ProjectDetailPage';
-import { WorksPage } from '@/pages/WorksPage';
 
 /**
  * React Router must strip the GitHub Pages project prefix (`/nattyfy-portfolio`)
@@ -36,12 +33,37 @@ const routes = [
   {
     path: '/',
     element: <RootLayout />,
+    HydrateFallback: RouteHydrateFallback,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'works', element: <WorksPage /> },
-      { path: 'works/:slug', element: <ProjectDetailPage /> },
-      { path: 'about', element: <AboutPage /> },
-      { path: 'contact', element: <ContactPage /> },
+      {
+        path: 'works',
+        lazy: async () => {
+          const { WorksPage } = await import('@/pages/WorksPage');
+          return { Component: WorksPage };
+        },
+      },
+      {
+        path: 'works/:slug',
+        lazy: async () => {
+          const { ProjectDetailPage } = await import('@/pages/ProjectDetailPage');
+          return { Component: ProjectDetailPage };
+        },
+      },
+      {
+        path: 'about',
+        lazy: async () => {
+          const { AboutPage } = await import('@/pages/AboutPage');
+          return { Component: AboutPage };
+        },
+      },
+      {
+        path: 'contact',
+        lazy: async () => {
+          const { ContactPage } = await import('@/pages/ContactPage');
+          return { Component: ContactPage };
+        },
+      },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Container } from '@/components/layout/Container';
+import { usePageTitle } from '@/lib/usePageTitle';
 
 const specialties = [
   'Brand strategy',
@@ -69,6 +70,8 @@ const experience = [
 ];
 
 export function AboutPage() {
+  usePageTitle('About');
+
   return (
     <Container className="py-16 md:py-24 lg:py-32">
       <header className="max-w-[58rem]">
