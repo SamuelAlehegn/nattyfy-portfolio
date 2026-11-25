@@ -109,10 +109,10 @@ export const Header = memo(function Header() {
       const currentY = Math.max(window.scrollY, 0);
       const delta = currentY - lastScrollY.current;
 
-      setScrolled((current) => {
-        const nextScrolled = currentY > 8;
-        return current === nextScrolled ? current : nextScrolled;
-      });
+      // setScrolled((current) => {
+      //   const nextScrolled = currentY > 8;
+      //   return current === nextScrolled ? current : nextScrolled;
+      // });
 
       // Always reveal the header at the top of the page.
       if (currentY < 24) {
@@ -261,7 +261,7 @@ export const Header = memo(function Header() {
         <Container
           className={cn(
             'flex items-center justify-between gap-4 transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-            scrolled ? 'h-14 md:h-16' : 'h-16 md:h-22',
+            'h-14 md:h-18',
           )}
         >
           <Logo onNavigate={closeMenu} />
@@ -290,7 +290,7 @@ export const Header = memo(function Header() {
 
             <div
               className={cn(
-                'min-[1720px]:absolute min-[1720px]:inset-y-0 min-[1720px]:right-10 min-[1720px]:flex min-[1720px]:items-center',
+                'min-[1600px]:absolute min-[1600px]:inset-y-0 min-[1600px]:right-10 min-[1600px]:flex min-[1600px]:items-center',
                 menuOpen && 'hidden',
               )}
             >
