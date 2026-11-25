@@ -68,9 +68,7 @@ export const Header = memo(function Header() {
   const [menuOpenedAt, setMenuOpenedAt] = useState<string | null>(null);
   const menuOpen = menuOpenedAt === location.key;
   const [hidden, setHidden] = useState(false);
-  const [scrolled] = useState(
-    () => typeof window !== 'undefined' && window.scrollY > 8,
-  );
+  const [scrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 8);
   const menuOpenRef = useRef(menuOpen);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
