@@ -47,7 +47,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={label}
       title={label}
-      className="inline-flex size-9 items-center justify-center rounded-full text-header-fg transition-opacity duration-150 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+      className="inline-flex size-9 items-center justify-center rounded-full text-header-fg transition-colors duration-150 hover:text-yellow-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

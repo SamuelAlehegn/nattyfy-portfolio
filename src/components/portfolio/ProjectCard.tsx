@@ -56,7 +56,7 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/80 via-black/40 to-black/20 px-6 text-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
       >
-        <span className="relative inline-flex max-w-full items-center gap-2 text-balance text-card-overlay font-semibold text-white transition-[translate] duration-300 ease-out after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-highlight after:content-[''] motion-safe:translate-y-2 motion-safe:group-hover:translate-y-0 motion-safe:group-focus-visible:translate-y-0">
+        <span className="relative inline-flex max-w-full items-center gap-2 text-balance text-card-overlay font-semibold text-white transition-[translate] duration-300 ease-out after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-white after:content-[''] motion-safe:translate-y-2 motion-safe:group-hover:translate-y-0 motion-safe:group-focus-visible:translate-y-0">
           {project.title}
           <ArrowRightIcon className="size-6 shrink-0" />
         </span>

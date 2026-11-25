@@ -32,9 +32,9 @@ export function HeroMark() {
   const showAnimation = !reduceMotion && canPlayAnimation();
 
   return (
-    <div className="relative aspect-square w-[clamp(16rem,34vw,30rem)]">
+    <div className="relative aspect-square w-[clamp(16rem,24vw,30rem)]">
       {showAnimation ? (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 scale-[2.1]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 scale-[2]">
           <Suspense fallback={null}>
             <HeroLogoAnimation key={resolvedTheme} theme={resolvedTheme} />
           </Suspense>
