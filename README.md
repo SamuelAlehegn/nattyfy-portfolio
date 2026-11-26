@@ -47,4 +47,6 @@ Keep assets local where possible, avoid duplicating large originals, and preserv
 
 ## Production
 
-`npm run build` creates the static site in `dist/`. GitHub Pages deployment uses the repository workflow and Vite base path configuration. The contact form opens the visitor's configured email application with a prefilled message; this static site does not send or store form submissions.
+`npm run build` creates the static site in `dist/`. GitHub Pages deployment uses the repository workflow and Vite base path configuration.
+
+The contact form sends submissions through [Formspree](https://formspree.io) when `VITE_FORMSPREE_FORM_ID` is configured. Create a form in Formspree, then add its ID as a repository variable (`VITE_FORMSPREE_FORM_ID`) for the deploy workflow. Without it, the form falls back to opening the visitor's configured email application with a prefilled message.
