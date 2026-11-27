@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/cn';
 
 type ButtonVariant = 'primary' | 'outline';
-type ButtonSize = 'md' | 'lg';
+type ButtonSize = 'md' | 'lg' | 'hero';
 
 interface ButtonLinkProps {
   to: string;
@@ -26,6 +26,8 @@ const variants: Record<ButtonVariant, string> = {
 const sizes: Record<ButtonSize, string> = {
   md: 'min-h-11 min-w-[10.4rem] px-6 text-button-lg md:min-w-[11.5rem]',
   lg: 'min-h-11 min-w-[12.8rem] rounded-md px-6 text-button-lg md:min-h-13 md:min-w-[14.5rem]',
+  /* Phone hero CTA from the reference: 19 px, compact padding, full width ≤420 px. */
+  hero: 'min-h-[2.4375rem] px-[1.5625rem] text-[1.1875rem] max-[420.02px]:w-full lg:min-h-11 lg:min-w-[11.5rem] lg:px-6 lg:text-button-lg',
 };
 
 export function ButtonLink({

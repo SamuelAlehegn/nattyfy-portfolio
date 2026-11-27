@@ -6,13 +6,16 @@ import { ProjectCard } from '@/components/portfolio/ProjectCard';
 
 export function PortfolioHighlight() {
   return (
-    <section aria-labelledby="portfolio-heading" className="pt-14 pb-20 md:pt-24 md:pb-32">
+    <section aria-labelledby="portfolio-heading" className="pt-[5.625rem] pb-20 md:pt-24 md:pb-32">
       <Container>
-        <h2 id="portfolio-heading" className="text-center text-h2 font-bold text-heading">
+        <h2
+          id="portfolio-heading"
+          className="text-center text-[1.875rem] leading-[1.2] font-bold text-heading lg:text-h2"
+        >
           Portfolio Highlight
         </h2>
 
-        <div className="relative mt-8">
+        <div className="relative mt-[2.1875rem] md:mt-8">
           <ul className="home-portfolio-grid grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
             {homeProjects.map((project) => (
               <li key={project.id}>
