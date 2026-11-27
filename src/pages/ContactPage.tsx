@@ -296,11 +296,11 @@ export function ContactPage() {
               </>
             )}
           </button>
-          <p className="text-small text-muted">
-            {sendsFromSite
-              ? ''
-              : 'Your email app will open with the message addressed to me.'}
-          </p>
+          {!sendsFromSite ? (
+            <p className="text-small text-muted">
+              Your email app will open with the message addressed to me.
+            </p>
+          ) : null}
         </form>
 
         <aside aria-labelledby="contact-direct" className="lg:pt-2">
