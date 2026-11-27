@@ -32,9 +32,9 @@ describe('App', () => {
       'href',
       '/works',
     );
-    expect(screen.getByRole('link', { name: /fikreyesusn@gmail.com/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /natnael.designs@gmail.com/i })).toHaveAttribute(
       'href',
-      'mailto:fikreyesusn@gmail.com',
+      'mailto:natnael.designs@gmail.com',
     );
     expect(screen.getByText(/design is the silent ambassador/i)).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /opens in a new tab/i })).toHaveLength(3);
