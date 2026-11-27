@@ -6,7 +6,7 @@ import type { SocialLink } from '@/types/content';
  */
 export const site = {
   name: 'Natnael Fikreyesus',
-  email: 'fikreyesusn@gmail.com',
+  email: 'natnael.designs@gmail.com',
   phoneDisplay: '+251 912 070 233',
   phoneHref: 'tel:+251912070233',
   roles: ['Logo Design and', 'Brand Identity Design'],
