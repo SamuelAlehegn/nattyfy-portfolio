@@ -95,7 +95,7 @@ describe('ContactPage form (Formspree)', () => {
     renderContactPage();
 
     expect(screen.getByRole('button', { name: /send message/i })).toBeInTheDocument();
-    expect(screen.getByText(/sent straight from the site/i)).toBeInTheDocument();
+    expect(screen.queryByText(/email app will open/i)).not.toBeInTheDocument();
   });
 
   it('sends the message from the site and shows a success status', async () => {
