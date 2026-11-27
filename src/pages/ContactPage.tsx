@@ -298,7 +298,7 @@ export function ContactPage() {
           </button>
           <p className="text-small text-muted">
             {sendsFromSite
-              ? 'Your message is sent straight from the site — no email app needed.'
+              ? ''
               : 'Your email app will open with the message addressed to me.'}
           </p>
         </form>
