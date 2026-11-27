@@ -57,24 +57,29 @@ export function HeroSection() {
             variants={variants.textItem}
             className="font-display text-heading"
           >
-            <span aria-hidden="true" className="block text-display-1">
+            <span aria-hidden="true" className="block text-hero-name lg:text-display-1">
               NATNAEL
             </span>
-            <span aria-hidden="true" className="block text-display-2">
+            <span
+              aria-hidden="true"
+              className="block pb-[15px] text-hero-surname lg:pb-0 lg:text-display-2"
+            >
               FIKREYESUS
             </span>
           </motion.h1>
 
           <motion.p
             variants={variants.textItem}
-            className="mt-6 max-w-[39rem] text-[clamp(0.8rem,1.28vw,1.2rem)] leading-[1.25] text-copy lg:mt-7"
+            className="mt-[1.875rem] max-w-[39rem] text-[1.1875rem] leading-[1.5] text-copy lg:mt-7 lg:text-[clamp(0.8rem,1.28vw,1.2rem)] lg:leading-[1.25]"
           >
             I empower businesses to stand out in crowded markets. Crafting logos and identities that
             captivate, setting you apart in today&apos;s competitive landscape.
           </motion.p>
 
-          <motion.div variants={variants.textItem} className="mt-6 lg:mt-7">
-            <ButtonLink to="/contact">Contact Me</ButtonLink>
+          <motion.div variants={variants.textItem} className="mt-[1.875rem] lg:mt-7">
+            <ButtonLink to="/contact" size="hero">
+              Contact Me
+            </ButtonLink>
           </motion.div>
         </motion.div>
 
