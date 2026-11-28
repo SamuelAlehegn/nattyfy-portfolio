@@ -1,10 +1,11 @@
 name: Deploy test site
 
-# Production deploys to Vercel from `main`. This workflow publishes the
-# `develop` branch to GitHub Pages so changes can be tested before merging.
+# Production deploys to Vercel from `main`. This workflow also publishes
+# `main` and `develop` to GitHub Pages for testing. GitHub Pages hosts a
+# single site per repository, so the most recent deployment is the live one.
 on:
   push:
-    branches: [develop]
+    branches: [main, develop]
   workflow_dispatch:
 
 permissions:

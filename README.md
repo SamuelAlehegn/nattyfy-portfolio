@@ -61,13 +61,13 @@ Production is deployed to [Vercel](https://vercel.com) from `main`. Day-to-day w
 
 ### GitHub Pages (testing)
 
-The **Deploy test site** workflow (`.github/workflows/deploy.yml`) runs on every push to `develop` and can also be started manually with `workflow_dispatch`. Configure the repository once:
+The **Deploy test site** workflow (`.github/workflows/deploy.yml`) runs on every push to `main` and `develop`, and can also be started manually with `workflow_dispatch`. Configure the repository once:
 
 1. Go to **Settings → Pages** and set **Source** to **GitHub Actions**.
-2. If the `github-pages` environment restricts deployment branches, allow `develop`.
+2. If the `github-pages` environment restricts deployment branches, allow both `main` and `develop`.
 3. Optionally add the repository variables `VITE_APP_NAME` and `VITE_FORMSPREE_FORM_ID`. Set `VITE_BASE_PATH` to `/` only if the test site uses a custom domain.
 
-The test site is served at `https://<owner>.github.io/<repository>/`. The workflow derives the Vite base path from the repository name automatically.
+The test site is served at `https://<owner>.github.io/<repository>/`. The workflow derives the Vite base path from the repository name automatically. GitHub Pages hosts one site per repository, so the most recent deployment from either branch is the live version; if both branches need to be available at the same time, host them as separate sites.
 
 ### Build details
 
