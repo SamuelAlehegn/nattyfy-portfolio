@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Vercel CLI
+.vercel
+
 # Build output
 dist/
 dist-ssr/
